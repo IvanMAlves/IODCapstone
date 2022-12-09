@@ -72,7 +72,7 @@ exports.login = async (req, res) => {
       { idusers, username, loginuseremail },
       process.env.ACCESS_TOKEN_SECRET,
       {
-        expiresIn: "15s",
+        expiresIn: "1d",
       }
     );
     const refreshToken = jwt.sign(
@@ -112,8 +112,6 @@ exports.login = async (req, res) => {
 exports.logout = async (req, res) => {
   const { idusers } = req.body;
 
-  //Using query to find all users where refresh_token = refresh_token (getting from params body). Select * from users where refresh_token = refresh_token
-  //Follow the same to return promise of getting query
   const connection = mysql.createConnection(config);
   let sql = `SELECT * FROM users WHERE idusers = "${idusers}";`;
 
@@ -133,11 +131,7 @@ exports.logout = async (req, res) => {
 
   connection.end();
 
-  //Check if user not found return 204
   if (!idusers) return res.sendStatus(204);
-
-  // Clear refresh_token => update null based on query where id : userId
-  //const connection = mysql.createConnection(config);
 
   let clearRefreshtoken = await new Promise((resolve, reject) => {
     const connection = mysql.createConnection(config);

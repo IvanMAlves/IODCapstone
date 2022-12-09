@@ -1,31 +1,16 @@
-"use strict";
+const express = require("express");
 
-module.exports = (app) => {
+const userController = require("../controller/UserController");
+const middleWare =  require("../middleware/VerifyToken");
+const refreshToken = require("../controller/RefreshToken");
 
-  const userController = require("../controller/UserController");
+const router = express.Router();
 
 
-  app.get("/", (req, res) => {
-    res.send("Main Page");
-  });
+router.get('/users/selectAllusers', middleWare.verifyTokens, userController.selectAllusers);
+router.post('/users/login', userController.login);
+router.post('users/registerUser',userController.registerUser);
+router.post('users/logout',userController.logout);
 
-  app
-  .route("/users/selectAllusers")
-  .get(userController.selectAllusers);
-
-  app
-  .route("/users/registerUser")
-  .post(userController.registerUser);
-
-  app
-  .route("/users/login")
-  .post(userController.login);
-
-  app
-  .route("/users/logout")
-  .post(userController.logout);
-
-  app.use((req, res, next) => {
-    res.status(404).send("<h1>Page not found on the server</h1>");
-  });
-};
+ 
+module.exports = { router }
