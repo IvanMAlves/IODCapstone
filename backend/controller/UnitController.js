@@ -42,33 +42,34 @@ exports.createUnit = async (req, res) => {
   }
 };
 
-// //this needs to be used when I am inserting information into multiple tables
-// exports.getUnitsByUserId = async (req, res) => {
-//   try {
-//     //this const below will get the userID from the client request
-//     const userIdValue = req.params.idusers;
+//This method below is to get the army list of the user by ArmyID
+exports.getUnitsByArmyId = async (req, res) => {
+  try {
+    //this const below will get the userID from the client request
+    //const userIdValue = req.params.idusers;
+    const armyid = req.params.armyid;
 
-//     const connection = mysql.createConnection(config);
-//     let sql = `SELECT u.idusers, u.username, a.armyid, a.armyname, a.requisition, a.updatedOn
-//     FROM users AS u, armies AS a
-//     WHERE u.idusers = a.idusers
-//     AND u.idusers = ${userIdValue};`;
+    const connection = mysql.createConnection(config);
+    let sql = `SELECT army_unit.unitid, units.unitname, units.unitexp, units.honors, units.UpdatedOn
+            FROM army_unit 
+            INNER JOIN units ON army_unit.unitid=units.unitid
+            WHERE armyid=${armyid};`;
 
-//     connection.query(sql, (error, results, fields) => {
-//       if (error) {
-//         throw Error(error.message);
-//       }
-//       res.status(200);
-//       console.log(results);
-//       res.json({ success: true, data: results });
-//     });
-//     connection.end();
-//   } catch (e) {
-//     res.status(400);
-//     res.json({ success: false, message: e.message });
-//     throw Error(e.message);
-//   }
-// };
+    connection.query(sql, (error, results, fields) => {
+      if (error) {
+        throw Error(error.message);
+      }
+      res.status(200);
+      console.log(results);
+      res.json({ success: true, data: results });
+    });
+    connection.end();
+  } catch (e) {
+    res.status(400);
+    res.json({ success: false, message: e.message });
+    throw Error(e.message);
+  }
+};
 
 // //updating the army fields by ID
 // exports.updateArmybyID = async (req, res) => {

@@ -32,7 +32,7 @@ router.delete('/army/deleteArmyByID/:armyid', middleWare.verifyTokens, ArmyContr
 //this is to create a unit with the ArmyID
 router.post('/units/create/:armyid', middleWare.verifyTokens, UnitController.createUnit);
 //this is to get the Units by userID
-//router.get('/units/getUnitsByUserId/:idusers', middleWare.verifyTokens, UnitController.getUnitsByUserId);
+router.get('/units/getUnitsByUserId/:armyid', middleWare.verifyTokens, UnitController.getUnitsByArmyId);
 // //this is to update the army by ArmyID
 // router.put('/units/updateArmybyID/:armyid', middleWare.verifyTokens, ArmyController.updateArmybyID);
 // //this is to delete the army by ArmyID
