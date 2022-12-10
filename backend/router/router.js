@@ -4,6 +4,7 @@ const userController = require("../controller/UserController");
 const middleWare =  require("../middleware/VerifyToken");
 const refreshToken = require("../controller/RefreshToken");
 const ArmyController = require("../controller/ArmyController");
+const UnitController = require("../controller/UnitController");
 
 const router = express.Router();
 
@@ -20,14 +21,22 @@ router.get('/token', refreshToken.refreshToken);
 
 //this is to create an army
 router.post('/army/create',ArmyController.createArmy);
-
 //this is to get the Army by userID
 router.get('/army/getArmyByUser/:idusers', middleWare.verifyTokens, ArmyController.getArmyByUserId);
-
 //this is to update the army by ArmyID
 router.put('/army/updateArmybyID/:armyid', middleWare.verifyTokens, ArmyController.updateArmybyID);
-
 //this is to delete the army by ArmyID
 router.delete('/army/deleteArmyByID/:armyid', middleWare.verifyTokens, ArmyController.deleteArmyByID);
+
+
+//this is to create a unit with the ArmyID
+router.post('/units/create/:armyid', middleWare.verifyTokens, UnitController.createUnit);
+//this is to get the Units by userID
+//router.get('/units/getUnitsByUserId/:idusers', middleWare.verifyTokens, UnitController.getUnitsByUserId);
+// //this is to update the army by ArmyID
+// router.put('/units/updateArmybyID/:armyid', middleWare.verifyTokens, ArmyController.updateArmybyID);
+// //this is to delete the army by ArmyID
+// router.delete('/units/deleteArmyByID/:armyid', middleWare.verifyTokens, ArmyController.deleteArmyByID);
+
  
 module.exports = { router }
