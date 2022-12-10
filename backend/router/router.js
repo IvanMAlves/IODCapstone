@@ -22,9 +22,12 @@ router.get('/token', refreshToken.refreshToken);
 router.post('/army/create',ArmyController.createArmy);
 
 //this is to get the Army by userID
-router.get('/army/getArmyByUser/:idusers', ArmyController.getArmyByUserId);
+router.get('/army/getArmyByUser/:idusers', middleWare.verifyTokens, ArmyController.getArmyByUserId);
 
 //this is to update the army by ArmyID
-router.put('/army/updateArmybyID/:armyid', ArmyController.updateArmybyID);
+router.put('/army/updateArmybyID/:armyid', middleWare.verifyTokens, ArmyController.updateArmybyID);
+
+//this is to delete the army by ArmyID
+router.delete('/army/deleteArmyByID/:armyid', middleWare.verifyTokens, ArmyController.deleteArmyByID);
  
 module.exports = { router }

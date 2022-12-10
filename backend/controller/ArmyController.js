@@ -91,3 +91,31 @@ exports.updateArmybyID = async (req, res) => {
       throw Error(e.message);
     }
   };
+
+  exports.deleteArmyByID = async (req, res) => {
+    try {
+      //this const below will get the userID from the client request
+      const armyid = req.params.armyid;
+  
+      const connection = mysql.createConnection(config);
+      let sql = `UPDATE armies
+      SET
+      requisition = 1,
+      updatedOn = now()
+      WHERE armyid = ${armyid};`;
+  
+      connection.query(sql, (error, results, fields) => {
+        if (error) {
+          throw Error(error.message);
+        }
+        res.status(200);
+        console.log(results);
+        res.json({ success: true, data: results });
+      });
+      connection.end();
+    } catch (e) {
+      res.status(400);
+      res.json({ success: false, message: e.message });
+      throw Error(e.message);
+    }
+  };
