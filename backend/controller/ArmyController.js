@@ -98,11 +98,8 @@ exports.updateArmybyID = async (req, res) => {
       const armyid = req.params.armyid;
   
       const connection = mysql.createConnection(config);
-      let sql = `UPDATE armies
-      SET
-      requisition = 1,
-      updatedOn = now()
-      WHERE armyid = ${armyid};`;
+      let sql = `DELETE FROM armies
+                WHERE armyid = ${armyid};`;
   
       connection.query(sql, (error, results, fields) => {
         if (error) {
