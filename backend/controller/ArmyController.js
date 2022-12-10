@@ -62,6 +62,7 @@ exports.getArmyByUserId = async (req, res) => {
   }
 };
 
+//updating the army fields by ID
 exports.updateArmybyID = async (req, res) => {
     const { requisition } = req.body;
     try {
