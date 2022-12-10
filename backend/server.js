@@ -1,8 +1,6 @@
 
 require("dotenv").config();
 
-
-
 const express = require("express");
 const cors = require('cors')
 const router = require("./router/router");
@@ -16,12 +14,9 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(router.router);
 
-
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to da boyz hobby corner." });
 });
-
-//routes(app); //register the route
 
 app.listen(port, (error) => {
   if (!error) {
