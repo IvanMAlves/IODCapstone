@@ -2,8 +2,8 @@
 const bcrypt = require("bcrypt");
 const { request } = require("express");
 const jwt = require("jsonwebtoken");
-const mysql = require("mysql2");
-const config = require("../connection/config.js");
+const mysql = require("mysql2"); //required for connecting to the SQL Database
+const config = require("../connection/config.js"); //Config also helps host the DB and accesses the details of the db
 
 exports.registerUser = async (req, res) => {
   const { useremail, password, username, confPassword } = req.body;
@@ -148,7 +148,7 @@ exports.logout = async (req, res) => {
     });
     connection.end();
   });
-  console.log(clearRefreshtoken);
+
   res.status(200);
   res.json({ success: true, msg: "Logout successful" });
 };
