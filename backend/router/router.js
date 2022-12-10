@@ -23,5 +23,8 @@ router.post('/army/create',ArmyController.createArmy);
 
 //this is to get the Army by userID
 router.get('/army/getArmyByUser/:idusers', ArmyController.getArmyByUserId);
+
+//this is to update the army by ArmyID
+router.put('/army/updateArmybyID/:armyid', ArmyController.updateArmybyID);
  
 module.exports = { router }
