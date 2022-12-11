@@ -40,7 +40,7 @@ router.put('/units/updateUnitbyID/:unitid', middleWare.verifyTokens, UnitControl
 router.delete('/units/removeUnitFromArmyByUnitID/:unitid', middleWare.verifyTokens, UnitController.removeUnitFromArmyByUnitID);
 
 //this is to create a match with the idusers
-//router.post('/matches/create/:idusers', middleWare.verifyTokens, MatchController.createMatch);
+router.post('/matches/createMatch/:idusers', middleWare.verifyTokens, MatchController.createMatch);
 //this is to get the matches by idusers
 router.get('/matches/getMatchByUserID/:idusers', middleWare.verifyTokens, MatchController.getMatchByUserID);
 // //this is to update matches by idmatches

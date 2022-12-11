@@ -4,34 +4,30 @@ const mysql = require("mysql2"); //required for connecting to the SQL Database
 const config = require("../connection/config.js"); //Config also helps host the DB and accesses the details of the db
 
 
-// exports.createMatch = async (req, res) => {
-//     const { idusers, armyname } = req.body;
-//     try {
-//       //connecting to the DB
-//       const connection = mysql.createConnection(config);
-//       let createMatchsql = `INSERT INTO armies
-//           (idusers,
-//           armyname,
-//           requisition,
-//           createdOn,
-//           updatedOn)
-//           VALUES
-//           ("${idusers}", "${armyname}", 0 , now() , now());`;
-//       connection.query(createArmySQL, (error, results, fields) => {
-//         if (error) {
-//           throw Error(error.message);
-//         }
-//         res.status(200);
-//         res.json({ success: true, msg: "Army Creation Successful" });
-//       });
-  
-//       connection.end();
-//     } catch (e) {
-//       res.status(400);
-//       res.json({ success: false, message: e.message });
-//       throw Error(e.message);
-//     }
-//   };
+exports.createMatch = async (req, res) => {
+
+  const userIdValue = req.params.idusers
+    const { idusers, matchname } = req.body;
+    try {
+      //connecting to the DB
+      const connection = mysql.createConnection(config);
+      let createMatchsql = `INSERT INTO matches(createddate, matchname, idattacker, iddefender,matchresult) 
+      VALUES(now(),"${matchname}",${userIdValue},${idusers},'Match yet to be played');`;
+      connection.query(createMatchsql, (error, results, fields) => {
+        if (error) {
+          throw Error(error.message);
+        }
+        res.status(200);
+        res.json({ success: true, msg: "Match Creation Successful" });
+      });
+      //console.log(result);
+      connection.end();
+    } catch (e) {
+      res.status(400);
+      res.json({ success: false, message: e.message });
+      throw Error(e.message);
+    }
+  };
   
   //reading the db
   exports.getMatchByUserID = async (req, res) => {
