@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState("");
-  const history = useHistory();
+  const navigate = useNavigate();
   const Auth = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/login", {
-        email: email,
+      await axios.post("http://localhost:8000/users/login", {
+        useremail: email,
         password: password,
       });
-      history.push("/dashboard");
+      navigate("/dashboard");
     } catch (error) {
       if (error.response) {
         setMsg(error.response.data.msg);
