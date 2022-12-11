@@ -31,13 +31,13 @@ router.delete('/army/deleteArmyByID/:armyid', middleWare.verifyTokens, ArmyContr
 
 
 //this is to create a unit with the ArmyID
-router.post('/units/create/:armyid', middleWare.verifyTokens, UnitController.createUnit);
+router.post('/units/createUnit/:armyid', middleWare.verifyTokens, UnitController.createUnit);
 //this is to get the Units by ArmyID
 router.get('/units/getUnitsByUserId/:armyid', middleWare.verifyTokens, UnitController.getUnitsByArmyId);
 // //this is to update the units by unitid
-// router.put('/units/updateUnitbyID/:unitid', middleWare.verifyTokens, ArmyController.updateArmybyID);
+router.put('/units/updateUnitbyID/:unitid', middleWare.verifyTokens, UnitController.updateUnitbyID);
 // //this is to delete the unit in an army by unitid
-// router.delete('/units/deleteArmyByID/:unitid', middleWare.verifyTokens, ArmyController.deleteArmyByID);
+router.delete('/units/removeUnitFromArmyByUnitID/:unitid', middleWare.verifyTokens, UnitController.removeUnitFromArmyByUnitID);
 
 //this is to create a match with the idusers
 //router.post('/matches/create/:idusers', middleWare.verifyTokens, MatchController.createMatch);
