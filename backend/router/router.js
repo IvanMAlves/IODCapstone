@@ -5,6 +5,7 @@ const middleWare =  require("../middleware/VerifyToken");
 const refreshToken = require("../controller/RefreshToken");
 const ArmyController = require("../controller/ArmyController");
 const UnitController = require("../controller/UnitController");
+const MatchController = require("../controller/MatchController");
 
 const router = express.Router();
 
@@ -31,12 +32,21 @@ router.delete('/army/deleteArmyByID/:armyid', middleWare.verifyTokens, ArmyContr
 
 //this is to create a unit with the ArmyID
 router.post('/units/create/:armyid', middleWare.verifyTokens, UnitController.createUnit);
-//this is to get the Units by userID
+//this is to get the Units by ArmyID
 router.get('/units/getUnitsByUserId/:armyid', middleWare.verifyTokens, UnitController.getUnitsByArmyId);
-// //this is to update the army by ArmyID
-// router.put('/units/updateArmybyID/:armyid', middleWare.verifyTokens, ArmyController.updateArmybyID);
-// //this is to delete the army by ArmyID
-// router.delete('/units/deleteArmyByID/:armyid', middleWare.verifyTokens, ArmyController.deleteArmyByID);
+// //this is to update the units by unitid
+// router.put('/units/updateUnitbyID/:unitid', middleWare.verifyTokens, ArmyController.updateArmybyID);
+// //this is to delete the unit in an army by unitid
+// router.delete('/units/deleteArmyByID/:unitid', middleWare.verifyTokens, ArmyController.deleteArmyByID);
+
+//this is to create a match with the idusers
+//router.post('/matches/create/:idusers', middleWare.verifyTokens, MatchController.createMatch);
+//this is to get the matches by idusers
+router.get('/matches/getMatchByUserID/:idusers', middleWare.verifyTokens, MatchController.getMatchByUserID);
+// //this is to update matches by idmatches
+// router.put('/matches/updateMatch/:idmatches', middleWare.verifyTokens, MatchController.updateMatchByMatchID);
+// //this is to delete the matches in an army by unitid
+// router.delete('/matches/deleteArmyByID/:unitid', middleWare.verifyTokens, MatchController.deleteMatch);
 
  
 module.exports = { router }

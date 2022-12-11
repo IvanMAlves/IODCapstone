@@ -10,6 +10,7 @@ const Dashboard = () => {
   const [userId, setuserID] = useState("");
   const [users, setUsers] = useState({});
   const [armies, setArmies] = useState([]);
+  const [matches, setMatches] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,6 +23,12 @@ const Dashboard = () => {
       getArmybyUserID();
     }
   }, [userId]);
+
+  useEffect(() => {
+    if (userId){
+        getMatchbyUserID();
+    }
+  },[userId]);
 
   const refreshToken = async () => {
     try {
@@ -69,6 +76,20 @@ const Dashboard = () => {
       }
     );
     setArmies(response.data.data); //this is the data pulled from the backend and set for use in a table later
+    console.log(response.data.data);
+  };
+
+  const getMatchbyUserID = async () => {
+    const response = await axiosJWT.get(
+      `http://localhost:8000/matches/getMatchByUserID/${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    setMatches(response.data.data); //this is the data pulled from the backend and set for use in a table later
+    console.log(response.data.data);
   };
 
   //store the army like the user
@@ -83,7 +104,8 @@ const Dashboard = () => {
             <th>Army ID</th>
             <th>Army Name</th>
             <th>Requisition</th>
-            <th>updatedOn</th>
+            <th>Created Date</th>
+            <th>Last Updated</th>
           </tr>
         </thead>   
         <tbody>
@@ -92,10 +114,33 @@ const Dashboard = () => {
               <td>{army.armyid}</td>
               <td>{army.armyname}</td>
               <td>{army.requisition}</td>
+              <td>{army.createdOn}</td>
               <td>{army.updatedOn}</td>        
             </tr>
-          ))}       
-        </tbody> 
+          ))}
+        </tbody>
+      </table>
+      <table className="table is-striped is-fullwidth">
+        <thead>
+          <tr>
+            <th>Match ID</th>
+            <th>Match Name</th>
+            <th>Attacker</th>
+            <th>Defender</th>
+            <th>Match Created On</th>
+          </tr>
+        </thead>   
+        <tbody>
+          {matches.map((match, index) => (
+            <tr key={match.idmatches}>
+              <td>{match.idmatches}</td>
+              <td>{match.matchname}</td>
+              <td>{match.attacker}</td>
+              <td>{match.defender}</td>
+              <td>{match.createddate}</td>     
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
   );

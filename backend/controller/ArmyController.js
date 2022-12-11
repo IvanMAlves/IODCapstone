@@ -41,7 +41,7 @@ exports.getArmyByUserId = async (req, res) => {
     const userIdValue = req.params.idusers;
 
     const connection = mysql.createConnection(config);
-    let sql = `SELECT u.idusers, u.username, a.armyid, a.armyname, a.requisition, a.updatedOn  
+    let sql = `SELECT u.idusers, u.username, a.armyid, a.armyname, a.requisition, a.createdOn, a.updatedOn  
     FROM users AS u, armies AS a 
     WHERE u.idusers = a.idusers
     AND u.idusers = ${userIdValue};`;
