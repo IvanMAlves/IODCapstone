@@ -11,10 +11,10 @@ const Register = () => {
   const Register = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/users", {
-        name: name,
-        email: email,
+      await axios.post("http://localhost:8000/users/registerUser", {
+        useremail: email,
         password: password,
+        username: name,
         confPassword: confPassword,
       });
       navigate("/");
@@ -41,7 +41,7 @@ const Register = () => {
                                                 
                 <div className="field mt-5">
                                                       
-                  <label className="label">Name</label>
+                  <label className="label">User Name</label>
                                                       
                   <div className="controls">
                                                             

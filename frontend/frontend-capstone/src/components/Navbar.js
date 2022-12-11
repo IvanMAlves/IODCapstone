@@ -7,7 +7,7 @@ const Navbar = () => {
  
     const Logout = async () => {
         try {
-            await axios.delete('http://localhost:8000/logout');
+            await axios.post('http://localhost:8000/users/logout');
             navigate("/");
         } catch (error) {
             console.log(error);

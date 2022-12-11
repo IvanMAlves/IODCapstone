@@ -48,7 +48,7 @@ const Dashboard = () => {
         config.headers.Authorization = `Bearer ${response.data.accessToken}`;
         setToken(response.data.accessToken);
         const decoded = jwt_decode(response.data.accessToken);
-        setName(decoded.name);
+        setName(decoded.userName);
         setExpire(decoded.exp);
         setuserID(decoded.userId);
       }
