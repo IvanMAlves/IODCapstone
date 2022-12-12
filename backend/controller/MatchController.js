@@ -5,7 +5,6 @@ const config = require("../connection/config.js"); //Config also helps host the 
 
 
 exports.createMatch = async (req, res) => {
-
   const userIdValue = req.params.idusers
     const { idusers, matchname } = req.body;
     try {
