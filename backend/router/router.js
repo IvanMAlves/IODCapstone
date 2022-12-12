@@ -43,10 +43,8 @@ router.delete('/units/removeUnitFromArmyByUnitID/:unitid', middleWare.verifyToke
 router.post('/matches/createMatch/:idusers', middleWare.verifyTokens, MatchController.createMatch);
 //this is to get the matches by idusers
 router.get('/matches/getMatchByUserID/:idusers', middleWare.verifyTokens, MatchController.getMatchByUserID);
-// //this is to update matches by idmatches
-// router.put('/matches/updateMatch/:idmatches', middleWare.verifyTokens, MatchController.updateMatchByMatchID);
-// //this is to delete the matches in an army by unitid
-// router.delete('/matches/deleteArmyByID/:unitid', middleWare.verifyTokens, MatchController.deleteMatch);
+//this is to update matches by idmatches
+router.put('/matches/updateMatchByMatchID/:idmatches', middleWare.verifyTokens, MatchController.updateMatchByMatchID);
 
  
 module.exports = { router }

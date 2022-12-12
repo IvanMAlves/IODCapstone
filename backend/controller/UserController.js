@@ -156,7 +156,7 @@ exports.logout = async (req, res) => {
 exports.selectAllusers = async (req, res) => {
   try {
     const connection = mysql.createConnection(config);
-    let sql = `SELECT * FROM daboyzhobbycorner.users;`;
+    let sql = `SELECT * FROM users;`;
 
     connection.query(sql, (error, results, fields) => {
       if (error) {
