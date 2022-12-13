@@ -63,7 +63,7 @@ const ArmyDetail = () => {
             <TableCell align="right">Experience</TableCell>
             <TableCell align="right">Honors</TableCell>
             <TableCell align="right">Last Updated</TableCell>
-            <TableCell align="right">Action</TableCell>
+            <TableCell align="right">Update</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
