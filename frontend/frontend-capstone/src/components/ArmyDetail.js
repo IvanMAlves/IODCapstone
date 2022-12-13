@@ -69,7 +69,7 @@ const ArmyDetail = () => {
         <TableBody>
           {units.map((unit, index) => (
             <TableRow
-              key={unit.armyid}
+              key={unit.unitid}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
@@ -78,7 +78,7 @@ const ArmyDetail = () => {
               <TableCell align="right">{unit.unitexp}</TableCell>
               <TableCell align="right">{unit.honors}</TableCell>
               <TableCell align="right">{unit.UpdatedOn}</TableCell>
-              <TableCell align="right"><Button onClick={() => updateSelectedUnit()} variant="outlined">Details</Button></TableCell>
+              <TableCell align="right"><Button onClick={() => updateSelectedUnit(unit.unitid)} variant="outlined">Details</Button></TableCell>
             </TableRow>
           ))}
         </TableBody>
