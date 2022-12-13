@@ -45,7 +45,7 @@ exports.getArmyByUserId = async (req, res) => {
     FROM users AS u, armies AS a 
     WHERE u.idusers = a.idusers
     AND u.idusers = ${userIdValue};`;
-
+ 
     connection.query(sql, (error, results, fields) => {
       if (error) {
         throw Error(error.message);

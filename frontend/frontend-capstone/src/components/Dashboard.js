@@ -14,7 +14,8 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    refreshToken(); //getUsers(); // i need to inset get army and also get matches once i have built matches.
+    refreshToken();
+     //getUsers(); // i need to inset get army and also get matches once i have built matches.
   }, []);
 
   useEffect(() => {
@@ -34,12 +35,12 @@ const Dashboard = () => {
     try {
       const response = await axios.get("http://localhost:8000/token"); //need to fix this route
       setToken(response.data.accessToken);
+      localStorage.setItem('token', response.data.accessToken);
       const decoded = jwt_decode(response.data.accessToken);
       setuserID(decoded.userId);
       setName(decoded.userName);
       setUsers(decoded);
       setExpire(decoded.exp);
-      console.log(decoded);
     } catch (error) {
       if (error.response) {
         navigate("/");

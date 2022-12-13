@@ -48,6 +48,13 @@ const Navbar = () => {
             </a>
                                 
           </div>
+          <div className="navbar-start">
+                                    
+            <a href="/armies" className="navbar-item">
+            Armies                         
+            </a>
+                                
+          </div>
                                 
           <div className="navbar-end">
                                     

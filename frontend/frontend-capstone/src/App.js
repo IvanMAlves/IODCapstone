@@ -4,7 +4,8 @@ import Login from "./components/Login";
 import Navbar from "./components/Navbar";
 import Register from "./components/Register";
 import Armies from "./components/Armies";
-import Units from "./components/Units";
+import ArmyDetail from "./components/ArmyDetail";
+
 
 function App() {
   return (
@@ -12,8 +13,8 @@ function App() {
     <Route exact path='/' element={<Login/>} />
     <Route exact path='/register' element={<Register/>} />
     <Route path='/dashboard' element={<><Navbar/> <Dashboard/></>} />
-    <Route path='/armies' element={<Armies/>}/>
-    <Route path='/units' element={<Units/>}/>
+    <Route path='/armies' element={<><Navbar/> <Armies/></>}/>
+    <Route path='/armies/:id' element={<><Navbar/> <ArmyDetail/></>}/>
   </Routes>
   );
 }
