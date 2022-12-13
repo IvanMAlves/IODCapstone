@@ -3,14 +3,15 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-const Dashboard = () => {
+const Units = () => {
   const [name, setName] = useState("");
   const [token, setToken] = useState("");
   const [expire, setExpire] = useState("");
   const [userId, setuserID] = useState("");
+  const [armyID, setarmyID] = useState("");
   const [users, setUsers] = useState({});
   const [armies, setArmies] = useState([]);
-  const [matches, setMatches] = useState([]);
+  const [units, setUnits] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,10 +26,10 @@ const Dashboard = () => {
   }, [userId]);
 
   useEffect(() => {
-    if (userId){
-        getMatchbyUserID();
-    }
-  },[userId]);
+    // wait until userData is defined to make the second call
+      getUnitsByArmyId();
+  }, []);
+
 
   const refreshToken = async () => {
     try {
@@ -46,7 +47,7 @@ const Dashboard = () => {
       }
     }
   };
-  
+
   const axiosJWT = axios.create();
   axiosJWT.interceptors.request.use(
     async (config) => {
@@ -80,65 +81,47 @@ const Dashboard = () => {
     console.log(response.data.data);
   };
 
-  const getMatchbyUserID = async () => {
+  const getUnitsByArmyId = async () => {
+    
     const response = await axiosJWT.get(
-      `http://localhost:8000/matches/getMatchByUserID/${userId}`,
+      `http://localhost:8000/units/getUnitsByArmyId/${armyID}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     );
-    setMatches(response.data.data); //this is the data pulled from the backend and set for use in a table later
+    setUnits(response.data.data); //this is the data pulled from the backend and set for use in a table later
     console.log(response.data.data);
   };
+
 
   //store the army like the user
   //kind of like this (need to make a new state for my army and setarmy)setUsers(response.data.data);
 
   return (
     <div className="container mt-5">
-                  <h1>Welcome Back: {name}</h1>
+                  <h1>Army Name: {armies.armyname}</h1>
       <table className="table is-striped is-fullwidth">
         <thead>
           <tr>
-            <th>Army ID</th>
-            <th>Army Name</th>
-            <th>Requisition</th>
-            <th>Created Date</th>
-            <th>Last Updated</th>
+            <th>Unit ID</th>
+            <th>Unit Name</th>
+            <th>Unit Experience</th>
+            <th>Loadout/Honors</th>
+            <th>Unit Created On</th>
+            <th>Unit Last Updated</th>
           </tr>
         </thead>   
         <tbody>
-          {armies.map((army, index) => (
-            <tr key={army.armyid}>
-              <td>{army.armyid}</td>
-              <td>{army.armyname}</td>
-              <td>{army.requisition}</td>
-              <td>{army.createdOn}</td>
-              <td>{army.updatedOn}</td>        
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <table className="table is-striped is-fullwidth">
-        <thead>
-          <tr>
-            <th>Match ID</th>
-            <th>Match Name</th>
-            <th>Attacker</th>
-            <th>Defender</th>
-            <th>Match Created On</th>
-          </tr>
-        </thead>   
-        <tbody>
-          {matches.map((match, index) => (
-            <tr key={match.idmatches}>
-              <td>{match.idmatches}</td>
-              <td>{match.matchname}</td>
-              <td>{match.attacker}</td>
-              <td>{match.defender}</td>
-              <td>{match.createddate}</td>     
+          {units.map((unit, index) => (
+            <tr key={unit.idmatches}>
+              <td>{unit.unitid}</td>
+              <td>{unit.unitname}</td>
+              <td>{unit.unitexp}</td>
+              <td>{unit.honors}</td>
+              <td>{unit.createdOn}</td> 
+              <td>{unit.UpdatedOn}</td>    
             </tr>
           ))}
         </tbody>
@@ -146,4 +129,4 @@ const Dashboard = () => {
     </div>
   );
 };
-export default Dashboard;
+export default Units;
