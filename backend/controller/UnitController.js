@@ -70,6 +70,30 @@ exports.getUnitsByArmyId = async (req, res) => {
   }
 };
 
+exports.getSingleUnitbyId = async (req, res) => {
+  try {
+    //this const below will get the unitid from the client request
+    const singleunitid = req.params.unitid; 
+
+    const connection = mysql.createConnection(config);
+    let getSingleUnitSql = `SELECT * FROM units WHERE unitid=${singleunitid};`;
+    console.log(getSingleUnitSql);
+    connection.query(getSingleUnitSql, (error, results, fields) => {
+      if (error) {
+        throw Error(error.message);
+      }
+      res.status(200);
+      //console.log(results);
+      res.json({ success: true, data: results });
+    });
+    connection.end();
+  } catch (e) {
+    res.status(400);
+    res.json({ success: false, message: e.message });
+    throw Error(e.message);
+  }
+};
+
 //updating the Unit fields by ID
 exports.updateUnitbyID = async (req, res) => {
     const { unitexp, honors } = req.body;

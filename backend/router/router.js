@@ -34,7 +34,9 @@ router.delete('/army/deleteArmyByID/:armyid', middleWare.verifyTokens, ArmyContr
 router.post('/units/createUnit/:armyid', middleWare.verifyTokens, UnitController.createUnit);
 //this is to get the Units by ArmyID
 router.get('/units/getUnitsByArmyId/:armyid', middleWare.verifyTokens, UnitController.getUnitsByArmyId);
-// //this is to update the units by unitid
+//this is to get a single unit to edit
+router.get('/units/getSingleUnitbyId/:unitid', middleWare.verifyTokens, UnitController.getSingleUnitbyId);
+//this is to update the units by unitid
 router.put('/units/updateUnitbyID/:unitid', middleWare.verifyTokens, UnitController.updateUnitbyID);
 // //this is to delete the unit in an army by unitid
 router.delete('/units/removeUnitFromArmyByUnitID/:unitid', middleWare.verifyTokens, UnitController.removeUnitFromArmyByUnitID);
