@@ -19,29 +19,28 @@ const UnitDetails = () => {
   const navigate = useNavigate();
   const {state} = useLocation();
   const [armies, setArmies] = useState([]);
-  
+  const [goBackArmyId, setGoBackArmyId] = useState(0);
 
   useEffect(() => {
-    const {id} = state;    
+    const {id,armyId} = state;    
     if (id) {
       getSingleUnitbyID(id);
+      setGoBackArmyId(armyId);
       }
-    // wait until userData is defined to make the second call
-    //console.log(state);
   }, []);
 
-  const updateSelectedUnit = (armyid) => {
+  const updateSelectedUnit = () => {
     console.log("update unit");
     //navigate(`/unit/${armyid}`, { state: {id: armyid}});
   }
 
-  const deleteSelectedUnit = (armyid) => {
+  const deleteSelectedUnit = () => {
     console.log("delete unit");
     //navigate(`/unit/${armyid}`, { state: {id: armyid}});
   }
 
   const goBack = () =>{
-    navigate(`/armies`);
+    navigate(`/armies/${goBackArmyId}`,{ state: {id: goBackArmyId}});
   }
 
   const axiosJWT = axios.create();

@@ -18,19 +18,22 @@ const ArmyDetail = () => {
   const [units, setUnits] = useState([]);
   const navigate = useNavigate();
   const {state} = useLocation();
+  const [armyId, setArmyID] = useState(0);
+
 
   useEffect(() => {
     const {id} = state;    
     if (id) {
         getUnitsByArmyId(id);
+        setArmyID(id);
       }
-    
+    console.log("armyDetail page" + id);
     console.log(state);
   }, []);
 
   const updateSelectedUnit = (unitid) => {
     console.log("update unit");
-    navigate(`/unit/${unitid}`, { state: {id: unitid}});
+    navigate(`/unit/${unitid}`, { state: {id: unitid,armyId : armyId }});
   }
 
   const axiosJWT = axios.create();
