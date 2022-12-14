@@ -157,6 +157,7 @@ const ArmyDetail = () => {
             Add in form in here things to do: 1. i need to save the name and
             honors from the form into a state 2. and then use an onSubmit to
             call a method which goes to my route.
+            3.Change the formatting on the dates and times to make it more user friendly
           </Typography>
         </Box>
       </Modal>
