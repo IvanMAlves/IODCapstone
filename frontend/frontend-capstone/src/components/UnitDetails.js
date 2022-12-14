@@ -13,39 +13,49 @@ import { Button } from "@mui/material";
 import { useLocation } from "react-router-dom";
 
 
-const ArmyDetail = () => {
+const UnitDetails = () => {
 
-  const [units, setUnits] = useState([]);
+  const [singleunit, setSingleUnit] = useState([]);
   const navigate = useNavigate();
   const {state} = useLocation();
+  const [armies, setArmies] = useState([]);
+  
 
   useEffect(() => {
     const {id} = state;    
     if (id) {
-        getUnitsByArmyId(id);
+      getSingleUnitbyID(id);
       }
-    
-    console.log(state);
+    // wait until userData is defined to make the second call
+    //console.log(state);
   }, []);
 
-  const updateSelectedUnit = (unitid) => {
+  const updateSelectedUnit = (armyid) => {
     console.log("update unit");
-    navigate(`/unit/${unitid}`, { state: {id: unitid}});
+    //navigate(`/unit/${armyid}`, { state: {id: armyid}});
+  }
+
+  const deleteSelectedUnit = (armyid) => {
+    console.log("delete unit");
+    //navigate(`/unit/${armyid}`, { state: {id: armyid}});
+  }
+
+  const goBack = () =>{
+    navigate(`/armies`);
   }
 
   const axiosJWT = axios.create();
   const token = localStorage.getItem("token");
-  const getUnitsByArmyId = async (armyID) => {
+  const getSingleUnitbyID = async (unitID) => {
     const response = await axiosJWT.get(
-      `http://localhost:8000/units/getUnitsByArmyId/${armyID}`,
+      `http://localhost:8000/units/getSingleUnitbyId/${unitID}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     );
-    setUnits(response.data.data); //this is the data pulled from the backend and set for use in a table later
-    console.log(response.data.data);
+    setSingleUnit(response.data.data); //this is the data pulled from the backend and set for use in a table later
   };
 
 
@@ -61,10 +71,11 @@ const ArmyDetail = () => {
             <TableCell align="right">Honors</TableCell>
             <TableCell align="right">Last Updated</TableCell>
             <TableCell align="right">Update</TableCell>
+            <TableCell align="right">Delete</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {units.map((unit, index) => (
+          {singleunit.map((unit, index) => (
             <TableRow
               key={unit.unitid}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -75,13 +86,16 @@ const ArmyDetail = () => {
               <TableCell align="right">{unit.unitexp}</TableCell>
               <TableCell align="right">{unit.honors}</TableCell>
               <TableCell align="right">{unit.UpdatedOn}</TableCell>
-              <TableCell align="right"><Button onClick={() => updateSelectedUnit(unit.unitid)} variant="outlined">Details</Button></TableCell>
+              <TableCell align="right"><Button onClick={() => updateSelectedUnit(unit.unitid)} variant="outlined">Update</Button></TableCell>
+              <TableCell align="right"><Button onClick={() => deleteSelectedUnit(unit.unitid)} variant="outlined">Delete</Button></TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
+    <br></br>
+    <Button onClick ={()=>goBack()} variant ="outlined">BACK</Button>
     </div>
   );
 };
-export default ArmyDetail;
+export default UnitDetails;
