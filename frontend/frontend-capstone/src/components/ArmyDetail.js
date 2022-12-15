@@ -79,13 +79,25 @@ const ArmyDetail = () => {
       getUnitsByArmyId(id);
       setArmyID(id);
     }
-    console.log("armyDetail page" + id);
-    console.log(state);
   }, []);
 
   const updateSelectedUnit = (unitid) => {
+    
     console.log("update unit");
-    navigate(`/unit/${unitid}`, { state: { id: unitid, armyId: armyId } });
+    //navigate(`/unit/${unitid}`, { state: { id: unitid, armyId: armyId } });
+  };
+
+
+  const deleteUnitByID = async (unitid) => {
+    const response = await axiosJWT.delete(
+      `http://localhost:8000/units/removeUnitFromArmyByUnitID/${unitid}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    getUnitsByArmyId(armyId);
   };
 
   const axiosJWT = axios.create();
@@ -100,7 +112,6 @@ const ArmyDetail = () => {
       }
     );
     setUnits(response.data.data); //this is the data pulled from the backend and set for use in a table later
-    console.log(response.data.data);
   };
 
   /*
@@ -137,10 +148,11 @@ const ArmyDetail = () => {
                 <TableCell align="right">{unit.UpdatedOn}</TableCell>
                 <TableCell align="right">
                   <Button
-                    onClick={() => updateSelectedUnit(unit.unitid)}
-                    variant="outlined"
-                  >
-                    Details
+                    onClick={() => updateSelectedUnit(unit.unitid)} variant="outlined">
+                    Update
+                  </Button>
+                  <Button onClick={()=>deleteUnitByID(unit.unitid)} color="error" variant="outlined">
+                    Delete
                   </Button>
                 </TableCell>
               </TableRow>
