@@ -1,82 +1,62 @@
 import React from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+
+
 
 const Navbar = () => {
   const navigate = useNavigate();
   const Logout = async () => {
     try {
       await axios.post("http://localhost:8000/users/logout");
-      navigate("/");
+      navigate("/login");
     } catch (error) {
       console.log(error);
     }
   };
+
+  const Armies = async () => {
+    try {
+      navigate("/armies");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const About = async () => {
+    try {
+      navigate("/about");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const Dashboard = async () => {
+    try {
+      navigate("/dashboard");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <nav
-      className="navbar is-light"
-      role="navigation"
-      aria-label="main navigation"
-    >
-                  
-      <div className="container">
-                        
-        <div className="navbar-brand">
-                                
-          <a
-            href="/"
-            role="button"
-            className="navbar-burger burger"
-            aria-label="menu"
-            aria-expanded="false"
-            data-target="navbarBasicExample"
-          >
-                                    <span aria-hidden="true"></span>
-                                    <span aria-hidden="true"></span>
-                                    <span aria-hidden="true"></span>
-                                
-          </a>
-                          
-        </div>
-                          
-        <div id="navbarBasicExample" className="navbar-menu">
-                              
-          <div className="navbar-start">
-                                    
-            <a href="/" className="navbar-item">
-            Home                         
-            </a>
-                                
-          </div>
-          <div className="navbar-start">
-                                    
-            <a href="/armies" className="navbar-item">
-            Armies                         
-            </a>
-                                
-          </div>
-                                
-          <div className="navbar-end">
-                                    
-            <div className="navbar-item">
-                                          
-              <div className="buttons">
-                                                
-                <button onClick={Logout} className="button is-light">
-                 Log Out        
-                </button>
-                                            
-              </div>
-                                      
-            </div>
-                                
-          </div>
-                          
-        </div>
-                    
-      </div>
-              
-    </nav>
+    <Box sx={{ flexGrow: 1 }}>
+    <AppBar position="static">
+      <Toolbar>
+        <Typography align="center" variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Button onClick={Dashboard} color="inherit">Dashboard</Button>
+        <Button onClick={Armies} color="inherit">Armies</Button>
+        <Button onClick={About} color="inherit">About</Button>
+        </Typography>
+        <Button onClick={Logout} color="inherit">Logout</Button>
+      </Toolbar>
+    </AppBar>
+  </Box>
   );
 };
 export default Navbar;
