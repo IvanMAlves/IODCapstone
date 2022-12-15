@@ -105,6 +105,7 @@ exports.login = async (req, res) => {
     res.status(200);
     res.json({ success: true, msg: "Log in successful", token: accessToken });
   } catch (error) {
+    console.log(error)
     res.status(404).json({ msg: "Email or Password not correct" });
   }
 };
@@ -170,6 +171,6 @@ exports.selectAllusers = async (req, res) => {
   } catch (e) {
     res.status(400);
     res.json({ success: false, message: e.message });
-    throw Error(e.message);
+    throw e;
   }
 };

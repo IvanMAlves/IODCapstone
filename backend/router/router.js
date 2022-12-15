@@ -9,6 +9,8 @@ const MatchController = require("../controller/MatchController");
 
 const router = express.Router();
 
+//should probably separate the below into separate routes files, so users.routes.js, army.routes.js, etc
+
 //this is the route to test the user database and for Admin to see all the users
 router.get('/users/selectAllusers', middleWare.verifyTokens, userController.selectAllusers);
 //this is the route for users to login
