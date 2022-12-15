@@ -15,7 +15,7 @@ const Navbar = () => {
   const Logout = async () => {
     try {
       await axios.post("http://localhost:8000/users/logout");
-      navigate("/login");
+      navigate("/register");
     } catch (error) {
       console.log(error);
     }
@@ -31,8 +31,6 @@ const Navbar = () => {
 
   const Matches = async () => {
     try {
-      console.log("Matches");
-      
       navigate("/matches/");
     } catch (error) {
       console.log(error);

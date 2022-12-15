@@ -2,12 +2,11 @@ import "../App.css"
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+//import FormControlLabel from '@mui/material/FormControlLabel';
+//import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -72,9 +71,7 @@ const Register = () => {
           alignItems: 'center',
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          {/* <LockOutlinedIcon /> */}
-        </Avatar>
+
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
@@ -152,112 +149,6 @@ const Register = () => {
       <Copyright sx={{ mt: 5 }} />
     </Container>
   </ThemeProvider>
-
-    // <section className="hero has-background-grey-light is-fullheight is-fullwidth">
-    //               
-    //   <div className="hero-body">
-    //                     
-    //     <div className="container">
-    //                           
-    //       <div className="columns is-centered">
-    //                                 
-    //         <div className="column is-4-desktop">
-    //                                       
-    //           <form onSubmit={Register} className="box">
-    //                                             
-    //             <p className="has-text-centered">{msg}</p>
-    //                                             
-    //             <div className="field mt-5">
-    //                                                   
-    //               <label className="label">User Name</label>
-    //                                                   
-    //               <div className="controls">
-    //                                                         
-    //                 <input
-    //                   type="text"
-    //                   className="input"
-    //                   placeholder="Name"
-    //                   value={name}
-    //                   onChange={(e) => setName(e.target.value)}
-    //                 />
-    //                                                     
-    //               </div>
-    //                                               
-    //             </div>
-    //                                             
-    //             <div className="field mt-5">
-    //                                                   
-    //               <label className="label">Email</label>
-    //                                                   
-    //               <div className="controls">
-    //                                                         
-    //                 <input
-    //                   type="text"
-    //                   className="input"
-    //                   placeholder="Email"
-    //                   value={email}
-    //                   onChange={(e) => setEmail(e.target.value)}
-    //                 />
-    //                                                     
-    //               </div>
-    //                                               
-    //             </div>
-    //                                             
-    //             <div className="field mt-5">
-    //                                                   
-    //               <label className="label">Password</label>
-    //                                                   
-    //               <div className="controls">
-    //                                                         
-    //                 <input
-    //                   type="password"
-    //                   className="input"
-    //                   placeholder="******"
-    //                   value={password}
-    //                   onChange={(e) => setPassword(e.target.value)}
-    //                 />
-    //                                                     
-    //               </div>
-    //                                               
-    //             </div>
-    //                                             
-    //             <div className="field mt-5">
-    //                                                   
-    //               <label className="label">Confirm Password</label>
-    //                                                   
-    //               <div className="controls">
-    //                                                         
-    //                 <input
-    //                   type="password"
-    //                   className="input"
-    //                   placeholder="******"
-    //                   value={confPassword}
-    //                   onChange={(e) => setConfPassword(e.target.value)}
-    //                 />
-    //                                                     
-    //               </div>
-    //                                               
-    //             </div>
-    //                                             
-    //             <div className="field mt-5">
-    //                                                   
-    //               <button className="button is-success is-fullwidth">
-    //                 Register
-    //               </button>
-    //                                               
-    //             </div>
-    //                                         
-    //           </form>
-    //                                   
-    //         </div>
-    //                             
-    //       </div>
-    //                       
-    //     </div>
-    //                 
-    //   </div>
-    //           
-    // </section>
   );
 };
 export default Register;

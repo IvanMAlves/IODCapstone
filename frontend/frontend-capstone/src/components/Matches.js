@@ -105,6 +105,10 @@ const Matches = () => {
   //store the army like the user
   //kind of like this (need to make a new state for my army and setarmy)setUsers(response.data.data);
 
+  const goBack = () =>{
+    navigate(`/dashboard`);
+  }
+
   return (
     <div className="container mt-5">
       <h1>{name}'s Matches</h1>
@@ -165,6 +169,8 @@ const Matches = () => {
           </Typography>
         </Box>
       </Modal>
+      <br></br>
+      <Button onClick ={()=>goBack()} variant ="outlined">BACK</Button>
     </div>
   );
 };
