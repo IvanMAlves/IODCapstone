@@ -6,7 +6,7 @@ const { Unit, ArmyUnit } = require("../models/UnitModel");
 
 //creating a Unit and inserting into an army
 exports.createUnit = async (req, res) => {
-  const { unitname } = req.body;
+  const { unitname } = req.body; //this is taking the name of the unit from the user
 
   const unit = new Unit(unitname); //using a model
   const armyid = req.params.armyid;
