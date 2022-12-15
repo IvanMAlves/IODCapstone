@@ -174,3 +174,27 @@ exports.selectAllusers = async (req, res) => {
     throw e;
   }
 };
+
+exports.selectAllOtherUsers = async (req, res) => {
+
+  const { idusers } = req.body;
+
+  try {
+    const connection = mysql.createConnection(config);
+    let sql = `SELECT * FROM users WHERE idusers != ${idusers};`;
+
+    connection.query(sql, (error, results, fields) => {
+      if (error) {
+        throw Error(error.message);
+      }
+      res.status(200);
+      res.json({ success: true, data: results });
+    });
+    console.log(sql); 
+    connection.end();
+  } catch (e) {
+    res.status(400);
+    res.json({ success: false, message: e.message });
+    throw e;
+  }
+};
