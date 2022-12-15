@@ -11,21 +11,13 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button } from "@mui/material";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
 
 const Armies = () => {
   const [name, setName] = useState("");
@@ -36,11 +28,37 @@ const Armies = () => {
   const [armies, setArmies] = useState([]);
   const navigate = useNavigate();
 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [newRequisitionAmount, setNewRequisitionAmount] = useState("");
+  const [armyToBeUpdated, setArmyToBeUpdated] = useState("");
+  const [newarmyname, setNewArmyName] = useState("");
 
+  const [open, setOpen] = useState(false);
+  const [openUpdate, setOpenUpdate] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
  
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleUpdateOpen = () => {
+    setOpenUpdate(true);
+  };
+
+  const handleUpdateClose = () => {
+    setOpenUpdate(false);
+  };
+
+  const handleDeleteOpen = () => {
+    setOpenDelete(true);
+  };
+
+  const handleDeleteClose = () => {
+    setOpenDelete(false);
+  };
+
 
   useEffect(() => {
     refreshToken(); //getUsers(); // i need to inset get army and also get matches once i have built matches.
@@ -62,6 +80,10 @@ const Armies = () => {
     navigate(`/dashboard`);
   }
 
+  const goToSelectedArmy = (armyid) => {
+    navigate(`/armies/${armyid}`, { state: {id: armyid}});
+  }
+  
 
   const refreshToken = async () => {
     try {
@@ -99,10 +121,51 @@ const Armies = () => {
     }
   );
 
+  const addingNewArmy = async () => {
+    let data = { idusers: userId, armyname : newarmyname }; 
+    const response = await axiosJWT.post(
+      `http://localhost:8000/army/create`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    
+    setOpen(false); //closes the box
+    getArmybyUserID(); //refreshes the table
+  };
 
-  const goToSelectedArmy = (armyid) => {
-    navigate(`/armies/${armyid}`, { state: {id: armyid}});
-  }
+
+  const updateSelectedArmy = async () => {
+    let data = { requisition : newRequisitionAmount }; //this is capturing the unit name and storing to a variable
+    // const response = await axiosJWT.post(
+    //   `http://localhost:8000/army/updateArmybyID/:armyid`,
+    //   data,
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //   }
+    // );
+    // setOpen(false); //closes the box
+    // getArmybyUserID(); //refreshes the table
+  };
+  
+  const deleteArmyByID = async (armyid) => {
+  
+    const response = await axiosJWT.delete(
+      `http://localhost:8000/army/deleteArmyByID/${armyid}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    getArmybyUserID();
+  };
+
 
   const getArmybyUserID = async () => {
     const response = await axiosJWT.get(
@@ -144,8 +207,10 @@ const Armies = () => {
               <TableCell align="right">{army.updatedOn}</TableCell>
               <TableCell align="right">
                 <Button onClick={() => goToSelectedArmy(army.armyid)} variant="outlined">Details</Button>
-                <Button variant="outlined">Update</Button>
-                <Button variant="outlined">Delete</Button>
+                <Button variant="outlined" onClick={handleUpdateOpen}>Update </Button>
+                <Button onClick={deleteArmyByID(army.armyid)} color="error"
+                    variant="outlined">Delete</Button>
+
               </TableCell>
             </TableRow>
           ))}
@@ -153,25 +218,50 @@ const Armies = () => {
       </Table>
     </TableContainer>
     <br></br>
-    <Button onClick={handleOpen}>Add Army</Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Add Army
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Add in form in here things to do: 1. i need to save the name and
-            honors from the form into a state 2. and then use an onSubmit to
-            call a method which goes to my route.
-            3.Change the formatting on the dates and times to make it more user friendly
-          </Typography>
-        </Box>
-      </Modal>
+    <Dialog open={openUpdate} onClose={handleUpdateClose}>
+        <DialogTitle>Update Army</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Instructions to be added later</DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="armyname"
+            label="Army Name"
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={(e) => setNewRequisitionAmount(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={updateSelectedArmy}>Add</Button>
+          <Button onClick={handleUpdateClose}>Cancel</Button>
+        </DialogActions>
+      </Dialog>
+      
+      <Button variant="outlined" onClick={handleClickOpen}>
+        Add Army
+      </Button>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Add Army</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Instructions to be added later</DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="unitname"
+            label="Unit Name"
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={(e) => setNewArmyName(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={addingNewArmy}>Add</Button>
+          <Button onClick={handleClose}>Cancel</Button>
+        </DialogActions>
+      </Dialog>
       <br></br>
       <Button onClick ={()=>goBack()} variant ="outlined">BACK</Button>
     </div>

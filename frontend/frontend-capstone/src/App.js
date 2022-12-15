@@ -5,21 +5,19 @@ import Navbar from "./components/Navbar";
 import Register from "./components/Register";
 import Armies from "./components/Armies";
 import ArmyDetail from "./components/ArmyDetail";
-import UnitDetails from "./components/UnitDetails";
 import About from "./components/About";
 import Matches from "./components/Matches";
 
 function App() {
   return (
   <Routes>
-    <Route exact path='/' element={<><Navbar/><Dashboard/></>} />
+    <Route exact path='/' element={<><Navbar/><Dashboard/></>} /> 
     <Route exact path='/login' element={<Login/>}/>
     <Route exact path='/register' element={<Register/>} />
     <Route path='/dashboard' element={<><Navbar/> <Dashboard/></>} />
     <Route path='/armies' element={<><Navbar/> <Armies/></>}/>
     <Route path='/armies/:id' element={<><Navbar/> <ArmyDetail/></>}/>
     <Route path='/matches' element={<><Navbar/> <Matches/></>}/>
-    <Route path='/unit/:id' element={<><Navbar/> <UnitDetails/></>}/>
     <Route path='/about' element={<><Navbar/> <About/></>}/>
   </Routes>
   );

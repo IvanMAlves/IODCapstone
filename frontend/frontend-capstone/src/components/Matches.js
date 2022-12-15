@@ -11,10 +11,14 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
-import { useLocation } from "react-router-dom";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+
+
 
 const style = {
   position: "absolute",
@@ -36,10 +40,34 @@ const Matches = () => {
   const [users, setUsers] = useState({});
   const [matches, setMatches] = useState([]);
   const navigate = useNavigate();
+  const [matchname, setMatchName] = useState("");
+  const [opponentId, setOpponentId] = useState("");
 
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+    //method to add a unit
+    const addingMatch = async () => {
+      let data = { opponentid: opponentId, match_name: matchname }; //this is capturing the unit name and storing to a variable
+      const response = await axiosJWT.post(
+        `http://localhost:8000/matches/createMatch/${userId}`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setOpen(false); //closes the box
+      getMatchbyUserID(); //refreshes the table
+    };
+
 
   useEffect(() => {
     refreshToken();
@@ -99,11 +127,9 @@ const Matches = () => {
       }
     );
     setMatches(response.data.data); //this is the data pulled from the backend and set for use in a table later
-    //console.log(response.data.data);
   };
 
-  //store the army like the user
-  //kind of like this (need to make a new state for my army and setarmy)setUsers(response.data.data);
+
 
   const goBack = () =>{
     navigate(`/dashboard`);
@@ -150,25 +176,39 @@ const Matches = () => {
         </Table>
       </TableContainer>
       <br></br>
-      <Button onClick={handleOpen}>Create Match</Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Create Match
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Add in form in here things to do: 1. i need to save the name and
-            honors from the form into a state 2. and then use an onSubmit to
-            call a method which goes to my route. 3.Change the formatting on the
-            dates and times to make it more user friendly
-          </Typography>
-        </Box>
-      </Modal>
+      <Button variant="outlined" onClick={handleClickOpen}>
+        Create Match
+      </Button>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Create Match</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Instructions to be added later</DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="matchname"
+            label="Match Name"
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={(e) => setMatchName(e.target.value)}
+          />
+            <TextField
+            autoFocus
+            margin="dense"
+            id="opponent"
+            label="Opponent's Name"
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={(e) => setOpponentId(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={addingMatch}>Add</Button>
+          <Button onClick={handleClose}>Cancel</Button>
+        </DialogActions>
+      </Dialog>
       <br></br>
       <Button onClick ={()=>goBack()} variant ="outlined">BACK</Button>
     </div>

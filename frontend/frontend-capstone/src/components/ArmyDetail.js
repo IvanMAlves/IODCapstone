@@ -21,9 +21,6 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-import FormControl, { useFormControl } from "@mui/material/FormControl";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import FormHelperText from "@mui/material/FormHelperText";
 
 const style = {
   position: "absolute",
@@ -66,10 +63,8 @@ const ArmyDetail = () => {
   };
 
   const handleUpdateClose = () => {
-    setOpen(false);
+    setOpenUpdate(false);
   };
-
-
 
   useEffect(() => {
     const { id } = state;
@@ -95,6 +90,7 @@ const ArmyDetail = () => {
     getUnitsByArmyId(armyId); //refreshes the table
   };
 
+  //method to update the unit
   const updateSelectedUnit = (unitid) => {
     console.log("update unit");
     //navigate(`/unit/${unitid}`, { state: { id: unitid, armyId: armyId } });
