@@ -31,8 +31,9 @@ const Navbar = () => {
 
   const Matches = async () => {
     try {
-      await axios.post("http://localhost:8000/matches/getMatchByUserID/:idusers");
-      navigate("/matches/:idusers");
+      console.log("Matches");
+      
+      navigate("/matches/");
     } catch (error) {
       console.log(error);
     }

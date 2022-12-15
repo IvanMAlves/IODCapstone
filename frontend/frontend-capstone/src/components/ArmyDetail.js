@@ -42,6 +42,10 @@ const ArmyDetail = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const goBack = () =>{
+    navigate(`/armies`);
+  }
+
   function MyFormHelperText() {
     const { focused } = useFormControl() || {};
 
@@ -66,6 +70,8 @@ const ArmyDetail = () => {
       </Box>
     );
   }
+
+  
 
   useEffect(() => {
     const { id } = state;
@@ -114,7 +120,7 @@ const ArmyDetail = () => {
               <TableCell align="right">Experience</TableCell>
               <TableCell align="right">Honors</TableCell>
               <TableCell align="right">Last Updated</TableCell>
-              <TableCell align="right">Update</TableCell>
+              <TableCell align="right">Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -150,7 +156,7 @@ const ArmyDetail = () => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
+        <Box sx={style} variant="outlined">
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Add unit
           </Typography>
@@ -162,6 +168,8 @@ const ArmyDetail = () => {
           </Typography>
         </Box>
       </Modal>
+      <br></br>
+      <Button onClick ={()=>goBack()} variant ="outlined">BACK</Button>
     </div>
   );
 };

@@ -58,6 +58,10 @@ const Armies = () => {
       //getUnitsByArmyId();
   }, []);
 
+  const goBack = () =>{
+    navigate(`/dashboard`);
+  }
+
 
   const refreshToken = async () => {
     try {
@@ -138,14 +142,18 @@ const Armies = () => {
               <TableCell align="right">{army.requisition}</TableCell>
               <TableCell align="right">{army.createdOn}</TableCell>
               <TableCell align="right">{army.updatedOn}</TableCell>
-              <TableCell align="right"><Button onClick={() => goToSelectedArmy(army.armyid)} variant="outlined">Details</Button></TableCell>
+              <TableCell align="right">
+                <Button onClick={() => goToSelectedArmy(army.armyid)} variant="outlined">Details</Button>
+                <Button variant="outlined">Update</Button>
+                <Button variant="outlined">Delete</Button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
     <br></br>
-    <Button onClick={handleOpen}>Add Unit</Button>
+    <Button onClick={handleOpen}>Add Army</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -154,7 +162,7 @@ const Armies = () => {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Add unit
+            Add Army
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             Add in form in here things to do: 1. i need to save the name and
@@ -164,6 +172,8 @@ const Armies = () => {
           </Typography>
         </Box>
       </Modal>
+      <br></br>
+      <Button onClick ={()=>goBack()} variant ="outlined">BACK</Button>
     </div>
   );
 };

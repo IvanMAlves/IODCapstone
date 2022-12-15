@@ -88,7 +88,7 @@ const Dashboard = () => {
       }
     );
     setArmies(response.data.data); //this is the data pulled from the backend and set for use in a table later
-    console.log(response.data.data);
+    //console.log(response.data.data);
   };
 
   const getMatchbyUserID = async () => {
@@ -101,7 +101,7 @@ const Dashboard = () => {
       }
     );
     setMatches(response.data.data); //this is the data pulled from the backend and set for use in a table later
-    console.log(response.data.data);
+    //console.log(response.data.data);
   };
 
   //store the army like the user
@@ -109,7 +109,9 @@ const Dashboard = () => {
 
   return (
     <div className="container mt-5">
-      <h1>Welcome Back: {name}</h1> 
+      <h1>Welcome Back: {name}</h1>
+      <br></br>
+      <h1>Brief Army list</h1> 
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -140,6 +142,8 @@ const Dashboard = () => {
         </Table>
       </TableContainer>
       <br></br>
+      <br></br>
+      <h1>Brief Match Overview</h1>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>

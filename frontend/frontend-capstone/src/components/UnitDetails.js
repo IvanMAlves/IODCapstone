@@ -69,8 +69,7 @@ const UnitDetails = () => {
             <TableCell align="right">Experience</TableCell>
             <TableCell align="right">Honors</TableCell>
             <TableCell align="right">Last Updated</TableCell>
-            <TableCell align="right">Update</TableCell>
-            <TableCell align="right">Delete</TableCell>
+            <TableCell align="right">Action</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -85,8 +84,11 @@ const UnitDetails = () => {
               <TableCell align="right">{unit.unitexp}</TableCell>
               <TableCell align="right">{unit.honors}</TableCell>
               <TableCell align="right">{unit.UpdatedOn}</TableCell>
-              <TableCell align="right"><Button onClick={() => updateSelectedUnit(unit.unitid)} variant="outlined">Update</Button></TableCell>
-              <TableCell align="right"><Button onClick={() => deleteSelectedUnit(unit.unitid)} variant="outlined">Delete</Button></TableCell>
+              <TableCell >
+                <Button align="right" onClick={() => updateSelectedUnit(unit.unitid)} variant="outlined">Update</Button>
+
+                <Button align="left"onClick={() => deleteSelectedUnit(unit.unitid)} variant="outlined">Delete</Button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
