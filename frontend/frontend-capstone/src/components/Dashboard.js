@@ -1,8 +1,17 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+import "../App.css"
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import { Button } from "@mui/material";
+import { useLocation } from "react-router-dom";
 
 const Dashboard = () => {
   const [name, setName] = useState("");
@@ -16,7 +25,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     refreshToken();
-     //getUsers(); // i need to inset get army and also get matches once i have built matches.
+    //getUsers(); // i need to inset get army and also get matches once i have built matches.
   }, []);
 
   useEffect(() => {
@@ -27,16 +36,16 @@ const Dashboard = () => {
   }, [userId]);
 
   useEffect(() => {
-    if (userId){
-        getMatchbyUserID();
+    if (userId) {
+      getMatchbyUserID();
     }
-  },[userId]);
+  }, [userId]);
 
   const refreshToken = async () => {
     try {
       const response = await axios.get("http://localhost:8000/token"); //need to fix this route
       setToken(response.data.accessToken);
-      localStorage.setItem('token', response.data.accessToken);
+      localStorage.setItem("token", response.data.accessToken);
       const decoded = jwt_decode(response.data.accessToken);
       setuserID(decoded.userId);
       setName(decoded.userName);
@@ -48,7 +57,7 @@ const Dashboard = () => {
       }
     }
   };
-  
+
   const axiosJWT = axios.create();
   axiosJWT.interceptors.request.use(
     async (config) => {
@@ -100,51 +109,65 @@ const Dashboard = () => {
 
   return (
     <div className="container mt-5">
-                  <h1>Welcome Back: {name}</h1>
-      <table className="table is-striped is-fullwidth">
-        <thead>
-          <tr>
-            <th>Army ID</th>
-            <th>Army Name</th>
-            <th>Requisition</th>
-            <th>Created Date</th>
-            <th>Last Updated</th>
-          </tr>
-        </thead>   
-        <tbody>
-          {armies.map((army, index) => (
-            <tr key={army.armyid}>
-              <td>{army.armyid}</td>
-              <td>{army.armyname}</td>
-              <td>{army.requisition}</td>
-              <td>{army.createdOn}</td>
-              <td>{army.updatedOn}</td>        
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <table className="table is-striped is-fullwidth">
-        <thead>
-          <tr>
-            <th>Match ID</th>
-            <th>Match Name</th>
-            <th>Attacker</th>
-            <th>Defender</th>
-            <th>Match Created On</th>
-          </tr>
-        </thead>   
-        <tbody>
-          {matches.map((match, index) => (
-            <tr key={match.idmatches}>
-              <td>{match.idmatches}</td>
-              <td>{match.matchname}</td>
-              <td>{match.attacker}</td>
-              <td>{match.defender}</td>
-              <td>{match.createddate}</td>     
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Army ID</TableCell>
+              <TableCell align="right">Army Name</TableCell>
+              <TableCell align="right">Requisition</TableCell>
+              <TableCell align="right">Created Date</TableCell>
+              <TableCell align="right">Last Updated</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {armies.map((army, index) => (
+              <TableRow
+                key={army.armyid}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {army.armyid}
+                </TableCell>
+                <TableCell align="right">{army.armyname}</TableCell>
+                <TableCell align="right">{army.requisition}</TableCell>
+                <TableCell align="right">{army.createdOn}</TableCell>
+                <TableCell align="right">{army.updatedOn}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <br></br>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Match ID</TableCell>
+              <TableCell align="right">Match Name</TableCell>
+              <TableCell align="right">Attacker</TableCell>
+              <TableCell align="right">Defender</TableCell>
+              <TableCell align="right">Match Created Date</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {matches.map((match, index) => (
+              <TableRow
+                key={match.idmatches}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {match.idmatches}
+                </TableCell>
+                <TableCell align="right">{match.matchname}</TableCell>
+                <TableCell align="right">{match.attacker}</TableCell>
+                <TableCell align="right">{match.defender}</TableCell>
+                <TableCell align="right">{match.createddate}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 };
