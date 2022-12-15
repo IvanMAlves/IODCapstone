@@ -1,4 +1,4 @@
-import "../App.css"
+import "../App.css";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -12,13 +12,18 @@ import Paper from "@mui/material/Paper";
 import { useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
+
+//for the add button
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 import FormControl, { useFormControl } from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import FormHelperText from "@mui/material/FormHelperText";
-import Armies from "./Armies";
 
 const style = {
   position: "absolute",
@@ -37,41 +42,34 @@ const ArmyDetail = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [armyId, setArmyID] = useState(0);
+  const [unitName, setUnitName] = useState(""); //this is used for passing the value of the unit name to the add unit function
 
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [openUpdate, setOpenUpdate] = useState(false);
 
-  const goBack = () =>{
+  const axiosJWT = axios.create(); //handling JWT
+  const token = localStorage.getItem("token"); //assigning the token to a variable
+
+  const goBack = () => {
     navigate(`/armies`);
-  }
+  };
 
-  function MyFormHelperText() {
-    const { focused } = useFormControl() || {};
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-    const helperText = React.useMemo(() => {
-      if (focused) {
-        return "This field is being focused";
-      }
+  const handleUpdateOpen = () => {
+    setOpenUpdate(true);
+  };
 
-      return "Helper text";
-    }, [focused]);
+  const handleUpdateClose = () => {
+    setOpen(false);
+  };
 
-    return <FormHelperText>{helperText}</FormHelperText>;
-  }
 
-  function UseFormControl() {
-    return (
-      <Box component="form" noValidate autoComplete="off">
-        <FormControl sx={{ width: "25ch" }}>
-          <OutlinedInput placeholder="Please enter text" />
-          <MyFormHelperText />
-        </FormControl>
-      </Box>
-    );
-  }
-
-  
 
   useEffect(() => {
     const { id } = state;
@@ -81,13 +79,28 @@ const ArmyDetail = () => {
     }
   }, []);
 
+  //method to add a unit
+  const addingUnit = async () => {
+    let data = { unitname: unitName }; //this is capturing the unit name and storing to a variable
+    const response = await axiosJWT.post(
+      `http://localhost:8000/units/createUnit/${armyId}`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    setOpen(false); //closes the box
+    getUnitsByArmyId(armyId); //refreshes the table
+  };
+
   const updateSelectedUnit = (unitid) => {
-    
     console.log("update unit");
     //navigate(`/unit/${unitid}`, { state: { id: unitid, armyId: armyId } });
   };
 
-
+  //method to delete a unit
   const deleteUnitByID = async (unitid) => {
     const response = await axiosJWT.delete(
       `http://localhost:8000/units/removeUnitFromArmyByUnitID/${unitid}`,
@@ -100,8 +113,6 @@ const ArmyDetail = () => {
     getUnitsByArmyId(armyId);
   };
 
-  const axiosJWT = axios.create();
-  const token = localStorage.getItem("token");
   const getUnitsByArmyId = async (armyID) => {
     const response = await axiosJWT.get(
       `http://localhost:8000/units/getUnitsByArmyId/${armyID}`,
@@ -147,11 +158,14 @@ const ArmyDetail = () => {
                 <TableCell align="right">{unit.honors}</TableCell>
                 <TableCell align="right">{unit.UpdatedOn}</TableCell>
                 <TableCell align="right">
-                  <Button
-                    onClick={() => updateSelectedUnit(unit.unitid)} variant="outlined">
+                  <Button variant="outlined" onClick={handleUpdateOpen}>
                     Update
                   </Button>
-                  <Button onClick={()=>deleteUnitByID(unit.unitid)} color="error" variant="outlined">
+                  <Button
+                    onClick={() => deleteUnitByID(unit.unitid)}
+                    color="error"
+                    variant="outlined"
+                  >
                     Delete
                   </Button>
                 </TableCell>
@@ -161,27 +175,53 @@ const ArmyDetail = () => {
         </Table>
       </TableContainer>
       <br></br>
-      <Button onClick={handleOpen}>Add Unit</Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style} variant="outlined">
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Add unit
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Add in form in here things to do: 1. i need to save the name and
-            honors from the form into a state 2. and then use an onSubmit to
-            call a method which goes to my route.
-            3.Change the formatting on the dates and times to make it more user friendly
-          </Typography>
-        </Box>
-      </Modal>
+      <Dialog open={openUpdate} onClose={handleUpdateClose}>
+        <DialogTitle>Update Unit</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Instructions to be added later</DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="unitname"
+            label="Unit Name"
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={(e) => setUnitName(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={updateSelectedUnit}>Add</Button>
+          <Button onClick={handleUpdateClose}>Cancel</Button>
+        </DialogActions>
+      </Dialog>
+      <Button variant="outlined" onClick={handleClickOpen}>
+        Add Unit
+      </Button>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Add Unit</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Instructions to be added later</DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="unitname"
+            label="Unit Name"
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={(e) => setUnitName(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={addingUnit}>Add</Button>
+          <Button onClick={handleClose}>Cancel</Button>
+        </DialogActions>
+      </Dialog>
       <br></br>
-      <Button onClick ={()=>goBack()} variant ="outlined">BACK</Button>
+      <Button onClick={() => goBack()} variant="outlined">
+        BACK
+      </Button>
     </div>
   );
 };
