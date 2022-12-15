@@ -29,6 +29,15 @@ const Navbar = () => {
     }
   };
 
+  const Matches = async () => {
+    try {
+      await axios.post("http://localhost:8000/matches/getMatchByUserID/:idusers");
+      navigate("/matches/:idusers");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const About = async () => {
     try {
       navigate("/about");
@@ -49,9 +58,10 @@ const Navbar = () => {
     <Box sx={{ flexGrow: 1 }}>
     <AppBar position="static">
       <Toolbar>
-        <Typography align="center" variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
         <Button onClick={Dashboard} color="inherit">Dashboard</Button>
         <Button onClick={Armies} color="inherit">Armies</Button>
+        <Button onClick={Matches} color="inherit">Macthes</Button>
         <Button onClick={About} color="inherit">About</Button>
         </Typography>
         <Button onClick={Logout} color="inherit">Logout</Button>

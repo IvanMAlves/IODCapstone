@@ -7,6 +7,7 @@ import Armies from "./components/Armies";
 import ArmyDetail from "./components/ArmyDetail";
 import UnitDetails from "./components/UnitDetails";
 import About from "./components/About";
+import Matches from "./components/Matches";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
     <Route path='/dashboard' element={<><Navbar/> <Dashboard/></>} />
     <Route path='/armies' element={<><Navbar/> <Armies/></>}/>
     <Route path='/armies/:id' element={<><Navbar/> <ArmyDetail/></>}/>
+    <Route path='/matches/:id' element={<><Navbar/> <Matches/></>}/>
     <Route path='/unit/:id' element={<><Navbar/> <UnitDetails/></>}/>
     <Route path='/about' element={<><Navbar/> <About/></>}/>
   </Routes>

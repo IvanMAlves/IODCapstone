@@ -11,8 +11,21 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button } from "@mui/material";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Typography from "@mui/material/Typography";
 
-
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
 const Armies = () => {
   const [name, setName] = useState("");
@@ -22,6 +35,11 @@ const Armies = () => {
   const [users, setUsers] = useState({});
   const [armies, setArmies] = useState([]);
   const navigate = useNavigate();
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
  
 
   useEffect(() => {
@@ -96,7 +114,7 @@ const Armies = () => {
 
   return (
     <div className="container mt-5">
-           <h1>Welcome Back: {name}</h1>       
+           <h1>{name}'s Armies</h1>       
       <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
@@ -126,6 +144,26 @@ const Armies = () => {
         </TableBody>
       </Table>
     </TableContainer>
+    <br></br>
+    <Button onClick={handleOpen}>Add Unit</Button>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Add unit
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            Add in form in here things to do: 1. i need to save the name and
+            honors from the form into a state 2. and then use an onSubmit to
+            call a method which goes to my route.
+            3.Change the formatting on the dates and times to make it more user friendly
+          </Typography>
+        </Box>
+      </Modal>
     </div>
   );
 };

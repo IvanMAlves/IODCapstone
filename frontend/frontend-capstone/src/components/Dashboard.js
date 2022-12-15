@@ -109,13 +109,14 @@ const Dashboard = () => {
 
   return (
     <div className="container mt-5">
+      <h1>Welcome Back: {name}</h1> 
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Army ID</TableCell>
-              <TableCell align="right">Army Name</TableCell>
-              <TableCell align="right">Requisition</TableCell>
+              <TableCell className="table-headings">Army ID</TableCell>
+              <TableCell className="table-headings" align="right">Army Name</TableCell>
+              <TableCell className="table-headings" align="right">Requisition</TableCell>
               <TableCell align="right">Created Date</TableCell>
               <TableCell align="right">Last Updated</TableCell>
             </TableRow>

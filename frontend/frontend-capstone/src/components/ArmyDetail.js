@@ -18,6 +18,7 @@ import Modal from "@mui/material/Modal";
 import FormControl, { useFormControl } from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import FormHelperText from "@mui/material/FormHelperText";
+import Armies from "./Armies";
 
 const style = {
   position: "absolute",
@@ -104,7 +105,7 @@ const ArmyDetail = () => {
 
   return (
     <div className="container mt-5">
-           <h1>Unit Page </h1>       
+           <h1>Unit Page for Army ID: {armyId}</h1>       
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
