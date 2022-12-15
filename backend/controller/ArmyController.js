@@ -31,7 +31,6 @@ exports.createArmy = async (req, res) => {
     res.json({ success: false, message: e.message });
     throw Error(e.message);
   }
-  console.log();
 };
 
 //reading the db
@@ -51,7 +50,6 @@ exports.getArmyByUserId = async (req, res) => {
         throw Error(error.message);
       }
       res.status(200);
-      console.log(results);
       res.json({ success: true, data: results });
     });
     connection.end();
@@ -81,7 +79,6 @@ exports.updateArmybyID = async (req, res) => {
           throw Error(error.message);
         }
         res.status(200);
-        console.log(results);
         res.json({ success: true, data: results });
       });
       connection.end();
@@ -106,7 +103,6 @@ exports.updateArmybyID = async (req, res) => {
           throw Error(error.message);
         }
         res.status(200);
-        console.log(results);
         res.json({ success: true, data: results });
       });
       connection.end();

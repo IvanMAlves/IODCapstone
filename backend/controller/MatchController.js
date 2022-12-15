@@ -19,7 +19,6 @@ exports.createMatch = async (req, res) => {
         res.status(200);
         res.json({ success: true, msg: "Match Creation Successful" });
       });
-      //console.log(result);
       connection.end();
     } catch (e) {
       res.status(400);
@@ -53,7 +52,6 @@ exports.createMatch = async (req, res) => {
           throw Error(error.message);
         }
         res.status(200);
-        //console.log(results);
         res.json({ success: true, data: results });
       });
       connection.end();
@@ -76,13 +74,11 @@ exports.createMatch = async (req, res) => {
         let updateMatchByMatchIDSql = `UPDATE matches
         SET matchresult = "${matchresult}", dateplayed = now()
         WHERE idmatches = ${idmatches};`;
-        console.log(updateMatchByMatchIDSql);
         connection.query(updateMatchByMatchIDSql, (error, results, fields) => {
           if (error) {
             throw Error(error.message);
           }
           res.status(200);
-          //console.log(results);
           res.json({ success: true, data: results });
         });
         connection.end();
