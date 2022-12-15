@@ -71,10 +71,6 @@ const Armies = () => {
     }
   }, [userId]);
 
-  useEffect(() => {
-    // wait until userData is defined to make the second call
-      //getUnitsByArmyId();
-  }, []);
 
   const goBack = () =>{
     navigate(`/dashboard`);
@@ -154,7 +150,6 @@ const Armies = () => {
   };
   
   const deleteArmyByID = async (armyid) => {
-  
     const response = await axiosJWT.delete(
       `http://localhost:8000/army/deleteArmyByID/${armyid}`,
       {
@@ -208,9 +203,7 @@ const Armies = () => {
               <TableCell align="right">
                 <Button onClick={() => goToSelectedArmy(army.armyid)} variant="outlined">Details</Button>
                 <Button variant="outlined" onClick={handleUpdateOpen}>Update </Button>
-                <Button onClick={deleteArmyByID(army.armyid)} color="error"
-                    variant="outlined">Delete</Button>
-
+                <Button color="error" variant="outlined">Delete</Button>
               </TableCell>
             </TableRow>
           ))}
@@ -234,7 +227,7 @@ const Armies = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={updateSelectedArmy}>Add</Button>
+          <Button onClick={updateSelectedArmy}>Update Changes</Button>
           <Button onClick={handleUpdateClose}>Cancel</Button>
         </DialogActions>
       </Dialog>
