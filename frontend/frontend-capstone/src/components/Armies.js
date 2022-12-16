@@ -29,7 +29,8 @@ const Armies = () => {
   const navigate = useNavigate();
 
   const [newRequisitionAmount, setNewRequisitionAmount] = useState("");
-  const [armyToBeUpdated, setArmyToBeUpdated] = useState("");
+  const [armyToBeUpdated, setArmyToBeUpdated] = useState({});
+  const [armyToBeDeleted, setArmyToBeDeleted] = useState({});
   const [newarmyname, setNewArmyName] = useState("");
 
   const [open, setOpen] = useState(false);
@@ -51,7 +52,8 @@ const Armies = () => {
     setOpenUpdate(false);
   };
 
-  const handleDeleteOpen = () => {
+  const handleDeleteOpen = (army) => {
+    setArmyToBeDeleted(army);
     setOpenDelete(true);
   };
 
@@ -158,7 +160,9 @@ const Armies = () => {
         },
       }
     );
-    getArmybyUserID();
+    setOpenDelete(false); //closes the box
+    setArmyToBeDeleted({}); //this sets it back to default which will have no value
+    getArmybyUserID(); //refreshes the table
   };
 
 
@@ -202,11 +206,12 @@ const Armies = () => {
               <TableCell align="right">{army.updatedOn}</TableCell>
               <TableCell align="right">
                 <Button onClick={() => goToSelectedArmy(army.armyid)} variant="outlined">Details</Button>
-                <Button variant="outlined" onClick={handleUpdateOpen}>Update </Button>
-                <Button color="error" variant="outlined">Delete</Button>
+                <Button variant="outlined" onClick={() => handleUpdateOpen()} >Update </Button> 
+                <Button color="error" variant="outlined" onClick={() => handleDeleteOpen(army)}>Delete</Button>
               </TableCell>
             </TableRow>
           ))}
+          
         </TableBody>
       </Table>
     </TableContainer>
@@ -227,11 +232,35 @@ const Armies = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={updateSelectedArmy}>Update Changes</Button>
+          <Button onClick={() => updateSelectedArmy()}>Update Changes</Button> 
           <Button onClick={handleUpdateClose}>Cancel</Button>
         </DialogActions>
       </Dialog>
       
+      <Dialog open={openDelete} onClose={handleDeleteClose}>
+        <DialogTitle>Delete Army</DialogTitle>
+        <DialogContent>
+            <label>
+              You have selected the following Army to be deleted:
+              <br/>
+              <b>{armyToBeDeleted.armyname}</b>
+              <br/>
+              <b>Please confirm if you wish to delete this army, once deleted you will not be able to recover it.</b>
+            </label>
+        </DialogContent>
+          <Button color="error" variant="outlined" onClick={() => deleteArmyByID(armyToBeDeleted.armyid)}>Delete Army</Button> 
+          <Button onClick={handleDeleteClose}>Cancel</Button>
+        <DialogActions>
+
+        </DialogActions>
+      </Dialog>
+
+
+
+
+
+
+
       <Button variant="outlined" onClick={handleClickOpen}>
         Add Army
       </Button>
@@ -243,7 +272,7 @@ const Armies = () => {
             autoFocus
             margin="dense"
             id="unitname"
-            label="Unit Name"
+            label="Army Name"
             type="text"
             fullWidth
             variant="standard"
