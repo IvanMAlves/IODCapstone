@@ -30,12 +30,24 @@ const ArmyDetail = () => {
   const { state } = useLocation();
   const [armyId, setArmyID] = useState(0);
   const [unitName, setUnitName] = useState(""); //this is used for passing the value of the unit name to the add unit function
+  const [selectedUnitID, setSelectedUnitID] = useState(""); //this is used for passing the value of the unitid to the updateunit function
+  const [honors, setHonors] = useState(""); //this is used for passing from the user input into the honors for the updateunit function
+  const [unitexp, setUnitExp] = useState(); //this is used for passing from the user input into the unitexp for the updateunit function
+
 
   const [open, setOpen] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
 
   const axiosJWT = axios.create(); //handling JWT
   const token = localStorage.getItem("token"); //assigning the token to a variable
+
+
+  const handleNumberOnly = (e) => {
+    const regex = /^[0-9\b]+$/;
+    if (e.target.value == "" || regex.test(e.target.value)) {
+      setUnitExp(e.target.value);
+    }
+  };
 
   const goBack = () => {
     navigate(`/armies`);
@@ -48,7 +60,8 @@ const ArmyDetail = () => {
     setOpen(false);
   };
 
-  const handleUpdateOpen = () => {
+  const handleUpdateOpen = (unit) => {
+    setSelectedUnitID(unit.unitid);
     setOpenUpdate(true);
   };
 
@@ -81,9 +94,19 @@ const ArmyDetail = () => {
   };
 
   //method to update the unit
-  const updateSelectedUnit = (unitid) => {
-    console.log("update unit");
-    //navigate(`/unit/${unitid}`, { state: { id: unitid, armyId: armyId } });
+  const updateSelectedUnit = async () => {
+    let data = {unitexp : unitexp, honors: honors };
+    const response = await axiosJWT.put(
+      `http://localhost:8000/units/updateUnitbyID/${selectedUnitID}`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    setOpenUpdate(false); //closes the box
+    getUnitsByArmyId(armyId); //refresh
   };
 
   //method to delete a unit
@@ -111,11 +134,6 @@ const ArmyDetail = () => {
     setUnits(response.data.data); //this is the data pulled from the backend and set for use in a table later
   };
 
-  /*
-              things to do:
-              1. i need to save the name and honors from the form into a state 
-              2. and then use an onSubmit to call a method which goes to my route.
-*/
 
   return (
     <div className="container mt-5">
@@ -144,7 +162,7 @@ const ArmyDetail = () => {
                 <TableCell align="right">{unit.honors}</TableCell>
                 <TableCell align="right">{unit.UpdatedOn}</TableCell>
                 <TableCell align="right">
-                  <Button variant="outlined" onClick={handleUpdateOpen}>
+                  <Button variant="outlined" onClick={() => handleUpdateOpen(unit)}>
                     Update
                   </Button>
                   <Button
@@ -164,20 +182,32 @@ const ArmyDetail = () => {
       <Dialog open={openUpdate} onClose={handleUpdateClose}>
         <DialogTitle>Update Unit</DialogTitle>
         <DialogContent>
-          <DialogContentText>Instructions to be added later</DialogContentText>
+          <DialogContentText>Add Honors, Battle Scars, Equipment and any other information</DialogContentText>
           <TextField
             autoFocus
             margin="dense"
-            id="unitname"
-            label="Unit Name"
+            label="Honors"
             type="text"
             fullWidth
             variant="standard"
-            onChange={(e) => setUnitName(e.target.value)}
+            onChange={(e) => setHonors(e.target.value)}
+          />
+            <TextField
+            inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+            autoFocus
+            margin="dense"
+            id="unitexp"
+            label="Unit Experience"
+            type="number"
+            fullWidth
+            variant="standard"
+            defaultValue={selectedUnitID.unitexp}
+            onChange={(e) => handleNumberOnly(e)}
           />
         </DialogContent>
+
         <DialogActions>
-          <Button onClick={updateSelectedUnit}>Add</Button>
+          <Button onClick={updateSelectedUnit}>Update</Button>
           <Button onClick={handleUpdateClose}>Cancel</Button>
         </DialogActions>
       </Dialog>
