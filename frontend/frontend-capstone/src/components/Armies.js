@@ -280,12 +280,7 @@ const Armies = () => {
         </DialogActions>
       </Dialog>
 
-
-
-
-
-
-            {/* Add Army Dialog */}
+      {/* Add Army Dialog */}
       <Button variant="outlined" onClick={handleClickOpen}>
         Add Army
       </Button>

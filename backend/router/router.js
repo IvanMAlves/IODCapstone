@@ -14,7 +14,7 @@ const router = express.Router();
 //this is the route to test the user database and for Admin to see all the users
 router.get('/users/selectAllusers', middleWare.verifyTokens, userController.selectAllusers);
 //this is the route used to get all other users except the user logged in
-router.get('/users/selectAllOtherUsers', middleWare.verifyTokens, userController.selectAllOtherUsers);
+router.get('/users/selectAllOtherUsers/:idusers', middleWare.verifyTokens, userController.selectAllOtherUsers);
 //this is the route for users to login
 router.post('/users/login', userController.login);
 //this is the route for users to register

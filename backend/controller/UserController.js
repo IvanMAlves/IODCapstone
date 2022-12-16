@@ -105,7 +105,7 @@ exports.login = async (req, res) => {
     res.status(200);
     res.json({ success: true, msg: "Log in successful", token: accessToken });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(404).json({ msg: "Email or Password not correct" });
   }
 };
@@ -154,11 +154,11 @@ exports.logout = async (req, res) => {
   res.json({ success: true, msg: "Logout successful" });
 };
 
+//this method selects all users
 exports.selectAllusers = async (req, res) => {
   try {
     const connection = mysql.createConnection(config);
     let sql = `SELECT * FROM users;`;
-
     connection.query(sql, (error, results, fields) => {
       if (error) {
         throw Error(error.message);
@@ -175,10 +175,9 @@ exports.selectAllusers = async (req, res) => {
   }
 };
 
+//this method selects all users except the user that is logged in
 exports.selectAllOtherUsers = async (req, res) => {
-
-  const { idusers } = req.body;
-
+  const idusers = req.params.idusers;
   try {
     const connection = mysql.createConnection(config);
     let sql = `SELECT * FROM users WHERE idusers != ${idusers};`;
@@ -190,7 +189,6 @@ exports.selectAllOtherUsers = async (req, res) => {
       res.status(200);
       res.json({ success: true, data: results });
     });
-    console.log(sql); 
     connection.end();
   } catch (e) {
     res.status(400);
