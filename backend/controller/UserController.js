@@ -180,8 +180,8 @@ exports.selectAllOtherUsers = async (req, res) => {
   const idusers = req.params.idusers;
   try {
     const connection = mysql.createConnection(config);
-    let sql = `SELECT * FROM users WHERE idusers != ${idusers};`;
-
+    let sql = `SELECT idusers, username FROM users WHERE idusers != ${idusers};`;
+    
     connection.query(sql, (error, results, fields) => {
       if (error) {
         throw Error(error.message);

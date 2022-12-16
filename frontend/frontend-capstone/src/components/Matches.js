@@ -18,20 +18,6 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
-
 const Matches = () => {
   const [name, setName] = useState("");
   const [token, setToken] = useState("");
@@ -55,19 +41,22 @@ const Matches = () => {
     //method to add a unit
     const addingMatch = async () => {
       let data = { opponentid: opponentId, match_name: matchname }; //this is capturing the unit name and storing to a variable
-      const response = await axiosJWT.post(
-        `http://localhost:8000/matches/createMatch/${userId}`,
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      // const response = await axiosJWT.post(
+      //   `http://localhost:8000/matches/createMatch/${userId}`,
+      //   data,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   }
+      // );
       setOpen(false); //closes the box
       getMatchbyUserID(); //refreshes the table
     };
 
+    const getAllOtherUsers = async () => {
+      
+    };
 
   useEffect(() => {
     refreshToken();
