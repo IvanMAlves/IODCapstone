@@ -44,8 +44,10 @@ const Armies = () => {
     setOpen(false);
   };
 
-  const handleUpdateOpen = () => {
-    setOpenUpdate(true);
+  const handleUpdateOpen = (army) => {
+    setNewRequisitionAmount(army.requisition);//this sets the initial value of the requisition so we can update it later
+    setArmyToBeUpdated(army); //initialises the armies so they can be updated later on
+    setOpenUpdate(true); //opens the update box
   };
 
   const handleUpdateClose = () => {
@@ -59,6 +61,14 @@ const Armies = () => {
 
   const handleDeleteClose = () => {
     setOpenDelete(false);
+  };
+
+  //this method below is to work with the buttons below in the army update table
+  const handleNumberOnly = (e) => {
+    const regex = /^[0-9\b]+$/;
+    if (e.target.value == "" || regex.test(e.target.value)) {
+      setNewRequisitionAmount(e.target.value);
+    }
   };
 
 
@@ -118,7 +128,8 @@ const Armies = () => {
       return Promise.reject(error);
     }
   );
-
+  
+  //this method adds a new army and calls the update method from the backend
   const addingNewArmy = async () => {
     let data = { idusers: userId, armyname : newarmyname }; 
     const response = await axiosJWT.post(
@@ -135,22 +146,25 @@ const Armies = () => {
     getArmybyUserID(); //refreshes the table
   };
 
-
-  const updateSelectedArmy = async () => {
+  //this method updates the army requisition and calls the update method from the backend
+  const updateSelectedArmy = async (armyid) => {
     let data = { requisition : newRequisitionAmount }; //this is capturing the unit name and storing to a variable
-    // const response = await axiosJWT.post(
-    //   `http://localhost:8000/army/updateArmybyID/:armyid`,
-    //   data,
-    //   {
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   }
-    // );
-    // setOpen(false); //closes the box
-    // getArmybyUserID(); //refreshes the table
+    const response = await axiosJWT.put(
+      `http://localhost:8000/army/updateArmybyID/${armyid}`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    setOpenUpdate(false); //closes the box
+    setArmyToBeUpdated({}); //this sets it back to default which will have no value
+    getArmybyUserID(); //refreshes the table
   };
   
+
+  //this method deletes the army and calls the delete method from the backend
   const deleteArmyByID = async (armyid) => {
     const response = await axiosJWT.delete(
       `http://localhost:8000/army/deleteArmyByID/${armyid}`,
@@ -166,6 +180,7 @@ const Armies = () => {
   };
 
 
+  //this fuction gets the armies by the user id which is used later to populate the tables on the users front end
   const getArmybyUserID = async () => {
     const response = await axiosJWT.get(
       `http://localhost:8000/army/getArmyByUser/${userId}`,
@@ -206,7 +221,7 @@ const Armies = () => {
               <TableCell align="right">{army.updatedOn}</TableCell>
               <TableCell align="right">
                 <Button onClick={() => goToSelectedArmy(army.armyid)} variant="outlined">Details</Button>
-                <Button variant="outlined" onClick={() => handleUpdateOpen()} >Update </Button> 
+                <Button variant="outlined" onClick={() => handleUpdateOpen(army)} >Update </Button> 
                 <Button color="error" variant="outlined" onClick={() => handleDeleteOpen(army)}>Delete</Button>
               </TableCell>
             </TableRow>
@@ -216,27 +231,38 @@ const Armies = () => {
       </Table>
     </TableContainer>
     <br></br>
+
+    {/* Update Army Dialog */}
     <Dialog open={openUpdate} onClose={handleUpdateClose}>
         <DialogTitle>Update Army</DialogTitle>
         <DialogContent>
-          <DialogContentText>Instructions to be added later</DialogContentText>
+          <DialogContentText>
+            <label>
+            You have selected the following Army to be updated, please only enter a number:
+            <br/>
+            <b>{armyToBeUpdated.armyname}</b>
+            </label>
+            </DialogContentText>
           <TextField
+            inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
             autoFocus
             margin="dense"
-            id="armyname"
-            label="Army Name"
-            type="text"
+            id="requisition"
+            label="Requisition Amount"
+            type="number"
             fullWidth
             variant="standard"
-            onChange={(e) => setNewRequisitionAmount(e.target.value)}
+            defaultValue={armyToBeUpdated.requisition}
+            onChange={(e) => handleNumberOnly(e)}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => updateSelectedArmy()}>Update Changes</Button> 
+          <Button onClick={() => updateSelectedArmy(armyToBeUpdated.armyid)}>Update Changes</Button> 
           <Button onClick={handleUpdateClose}>Cancel</Button>
         </DialogActions>
       </Dialog>
       
+      {/* Delete Army Dialog */}
       <Dialog open={openDelete} onClose={handleDeleteClose}>
         <DialogTitle>Delete Army</DialogTitle>
         <DialogContent>
@@ -248,10 +274,9 @@ const Armies = () => {
               <b>Please confirm if you wish to delete this army, once deleted you will not be able to recover it.</b>
             </label>
         </DialogContent>
-          <Button color="error" variant="outlined" onClick={() => deleteArmyByID(armyToBeDeleted.armyid)}>Delete Army</Button> 
-          <Button onClick={handleDeleteClose}>Cancel</Button>
         <DialogActions>
-
+          <Button color="error" variant="outlined" onClick={() => deleteArmyByID(armyToBeDeleted.armyid)}>Delete Army</Button> 
+          <Button variant="outlined" onClick={handleDeleteClose}>Cancel</Button>
         </DialogActions>
       </Dialog>
 
@@ -260,7 +285,7 @@ const Armies = () => {
 
 
 
-
+            {/* Add Army Dialog */}
       <Button variant="outlined" onClick={handleClickOpen}>
         Add Army
       </Button>
