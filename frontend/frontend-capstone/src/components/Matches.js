@@ -23,23 +23,33 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 const Matches = () => {
-  const [name, setName] = useState("");
-  //const [token, setToken] = useState("");
-  const [expire, setExpire] = useState("");
+  const navigate = useNavigate();
   const [userId, setuserID] = useState("");
   const [users, setUsers] = useState([]); //this will store all the other users but the current logged in user
-  const [matches, setMatches] = useState([]);
-  const navigate = useNavigate();
-  const [matchname, setMatchName] = useState("");
-  const [opponentId, setOpponentId] = useState("");
-
+  const [matches, setMatches] = useState([]); //this will store all the matches for the logged in user
+  const [idmatches, setMatchId] = useState("");//this will set the id of the match which will be used in the API call
+  const [matchresult, setMatchResult] = useState("");//this will take the string from the user input and store it in the variable
+  const [selectedMatchName, setSelectedMatchName] = useState("");//this will take the string from the user selecting a match and store it in the variable for the match name
+  const [matchname, setMatchName] = useState("");//this will take the string from the user input and store it in the variable for the match name
+  const [opponentId, setOpponentId] = useState("");//this will store the opponent id for the match making API
   const [open, setOpen] = useState(false);
+  const [openUpdate, setUpdateOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
+  };
+
+  
+  const handleUpdateOpen = (match) => {
+    setMatchId(match.idmatches);
+    setSelectedMatchName(match.matchname);
+    setUpdateOpen(true);
+  };
+  const handleUpdateClose = () => {
+    setUpdateOpen(false);
   };
 
   const handleSelectOpponent = (event) => {
@@ -59,10 +69,29 @@ const Matches = () => {
     setUsers(response.data.data);
   };
 
+  //
+
+  const updateMatchByMatchID = async () => {
+    let data = { matchresult: matchresult }; //this is capturing the unit name and storing to a variable
+    const response = await axiosJWT.put(
+      `http://localhost:8000/matches/updateMatchByMatchID/${idmatches}`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    setUpdateOpen(false); //closes the box
+    getMatchbyUserID(); //refreshes the table
+    setMatchId(""); //clears the value of the opponent value
+  };
+
+
+
   //method to call the API add a match
   const addingMatch = async () => {
     let data = { idusers: opponentId, matchname: matchname }; //this is capturing the unit name and storing to a variable
-   
     const response = await axiosJWT.post(
       `http://localhost:8000/matches/createMatch/${userId}`,
       data,
@@ -107,7 +136,7 @@ const Matches = () => {
 
   return (
     <div className="container mt-5">
-      <h1>{name}'s Matches</h1>
+      <h1>Matches</h1>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -138,17 +167,35 @@ const Matches = () => {
                 <TableCell align="right">{match.dateplayed}</TableCell>
                 <TableCell align="right">{match.matchresult}</TableCell>
                 <TableCell>
-                  <Button variant="outlined">Update</Button>
+                  <Button variant="outlined"  onClick={() => handleUpdateOpen(match)}>Update</Button>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <br></br>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Create Match
-      </Button>
+      <Dialog open={openUpdate} onClose={handleUpdateClose}>
+        <DialogTitle>Match Result<br/>
+          <b>{selectedMatchName}</b>
+          </DialogTitle>
+        <DialogContent>
+          <DialogContentText>Update the Match result with comments or noting the victor!</DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Update Match Results"
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={(e) => setMatchResult(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={updateMatchByMatchID}>Update</Button>
+          <Button onClick={handleUpdateClose}>Cancel</Button>
+        </DialogActions>
+      </Dialog>
+
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Create Match</DialogTitle>
         <DialogContent>
@@ -163,7 +210,6 @@ const Matches = () => {
             onChange={(e) => setMatchName(e.target.value)}
           />
       <FormControl className="list-opponent" variant="standard">
-
         <br/>
         <InputLabel>Opponent</InputLabel>
         <Select
@@ -183,6 +229,9 @@ const Matches = () => {
           <Button onClick={handleClose}>Cancel</Button>
         </DialogActions>
       </Dialog>
+      <Button variant="outlined" onClick={handleClickOpen}>
+        Create Match
+      </Button>
       <br></br>
       <Button onClick={() => goBack()} variant="outlined">
         BACK

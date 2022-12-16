@@ -35,7 +35,7 @@ const Register = () => {
         username: name,
         confPassword: confPassword,
       });
-      navigate("/");
+      navigate("/login");
     } catch (error) {
       if (error.response) {
         setMsg(error.response.data.msg);
