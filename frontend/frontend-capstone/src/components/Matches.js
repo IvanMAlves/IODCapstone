@@ -17,13 +17,17 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 const Matches = () => {
   const [name, setName] = useState("");
-  const [token, setToken] = useState("");
+  //const [token, setToken] = useState("");
   const [expire, setExpire] = useState("");
   const [userId, setuserID] = useState("");
-  const [users, setUsers] = useState({});
+  const [users, setUsers] = useState([]); //this will store all the other users but the current logged in user
   const [matches, setMatches] = useState([]);
   const navigate = useNavigate();
   const [matchname, setMatchName] = useState("");
@@ -38,73 +42,52 @@ const Matches = () => {
     setOpen(false);
   };
 
-    //method to add a unit
-    const addingMatch = async () => {
-      let data = { opponentid: opponentId, match_name: matchname }; //this is capturing the unit name and storing to a variable
-      // const response = await axiosJWT.post(
-      //   `http://localhost:8000/matches/createMatch/${userId}`,
-      //   data,
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   }
-      // );
-      setOpen(false); //closes the box
-      getMatchbyUserID(); //refreshes the table
-    };
-
-    const getAllOtherUsers = async () => {
-      
-    };
-
-  useEffect(() => {
-    refreshToken();
-    //getUsers(); // i need to inset get army and also get matches once i have built matches.
-  }, []);
-
-  useEffect(() => {
-    if (userId) {
-      getMatchbyUserID();
-    }
-  }, [userId]);
-
-  const refreshToken = async () => {
-    try {
-      const response = await axios.get("http://localhost:8000/token"); //need to fix this route
-      setToken(response.data.accessToken);
-      localStorage.setItem("token", response.data.accessToken);
-      const decoded = jwt_decode(response.data.accessToken);
-      setuserID(decoded.userId);
-      setName(decoded.userName);
-      setUsers(decoded);
-      setExpire(decoded.exp);
-    } catch (error) {
-      if (error.response) {
-        navigate("/");
-      }
-    }
+  const handleSelectOpponent = (event) => {
+    setOpponentId(event.target.value);
   };
 
-  const axiosJWT = axios.create();
-  axiosJWT.interceptors.request.use(
-    async (config) => {
-      const currentDate = new Date();
-      if (expire * 1000 < currentDate.getTime()) {
-        const response = await axios.get("http://localhost:8000/token");
-        config.headers.Authorization = `Bearer ${response.data.accessToken}`;
-        setToken(response.data.accessToken);
-        const decoded = jwt_decode(response.data.accessToken);
-        setName(decoded.userName);
-        setExpire(decoded.exp);
-        setuserID(decoded.userId);
+  //method to call the API to get all the other users except logged in user
+  const getAllOtherUsers = async () => {
+    const response = await axiosJWT.get(
+      `http://localhost:8000/users/selectAllOtherUsers/${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
-      return config;
-    },
-    (error) => {
-      return Promise.reject(error);
+    );
+    setUsers(response.data.data);
+  };
+
+  //method to call the API add a match
+  const addingMatch = async () => {
+    let data = { idusers: opponentId, matchname: matchname }; //this is capturing the unit name and storing to a variable
+   
+    const response = await axiosJWT.post(
+      `http://localhost:8000/matches/createMatch/${userId}`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    setOpen(false); //closes the box
+    getMatchbyUserID(); //refreshes the table
+    setOpponentId(""); //clears the value of the opponent value
+    setUsers([]); //clears the value of the users value
+  };
+
+  const axiosJWT = axios.create(); //handling JWT
+  const token = localStorage.getItem("token"); //assigning the token to a variable
+  useEffect(() => {
+    const decoded = jwt_decode(token); //this stores the value of the user in decoded from the token
+    setuserID(decoded.userId); //this sets the user id from the decoded token
+    if (userId) {
+      getMatchbyUserID();
+      getAllOtherUsers();
     }
-  );
+  }, [userId]);
 
   const getMatchbyUserID = async () => {
     const response = await axiosJWT.get(
@@ -118,11 +101,9 @@ const Matches = () => {
     setMatches(response.data.data); //this is the data pulled from the backend and set for use in a table later
   };
 
-
-
-  const goBack = () =>{
+  const goBack = () => {
     navigate(`/dashboard`);
-  }
+  };
 
   return (
     <div className="container mt-5">
@@ -175,23 +156,27 @@ const Matches = () => {
           <TextField
             autoFocus
             margin="dense"
-            id="matchname"
             label="Match Name"
             type="text"
             fullWidth
             variant="standard"
             onChange={(e) => setMatchName(e.target.value)}
           />
-            <TextField
-            autoFocus
-            margin="dense"
-            id="opponent"
-            label="Opponent's Name"
-            type="text"
-            fullWidth
-            variant="standard"
-            onChange={(e) => setOpponentId(e.target.value)}
-          />
+      <FormControl className="list-opponent" variant="standard">
+
+        <br/>
+        <InputLabel>Opponent</InputLabel>
+        <Select
+          value={opponentId}
+          onChange={handleSelectOpponent}
+          label="Age"
+        >
+          {users.map((match, index) => (
+            <MenuItem key={index} value={match.idusers}>{match.username}</MenuItem>
+          ))}
+            
+        </Select>
+      </FormControl>
         </DialogContent>
         <DialogActions>
           <Button onClick={addingMatch}>Add</Button>
@@ -199,7 +184,9 @@ const Matches = () => {
         </DialogActions>
       </Dialog>
       <br></br>
-      <Button onClick ={()=>goBack()} variant ="outlined">BACK</Button>
+      <Button onClick={() => goBack()} variant="outlined">
+        BACK
+      </Button>
     </div>
   );
 };
