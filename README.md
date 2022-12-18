@@ -1,6 +1,45 @@
-# IODCapstone
-# Backend Installation
-# Front-end Installation
+# IODCapstone Tapletop Bookkeeping
+
+## About
+
+Tabletop Bookkeeping is an application designed for tabletop wargamming and roleplaying players to have a single place to store and manage their
+tabletop bookkeeping records. Many tabletop games come with a paper and pen component to the game. Most of these games are multiplayer and require
+multiple people to have access to the same information and other information to be kept with only the player. This application aims to take away the
+pen and paper and create a digital replacement where users can manage their own informaiton and for future builds to shape how they want the informaiton stored.
+
+Please note that this is still in early release and not complete other than for the purposes of education. This application still has many features to be 
+implemented before its full live launch.
+
+# Installation Instructions
+
+1. Clone the github
+2. Ensure both folders are in the same directory /IODCapstone
+3. Complete back-end installation first
+4. Complete front-end installation second
+
+## back-end installation and customisation
+
+cd to /IODCapstone/backend
+npm install
+The Database can be found /IODCapstone/backend for the db_init.sql
+Locate /IODCapstone/backend for the config.js
+Change the HOST, USER, PASSWORD, DB, and PORT to match your database
+OR
+Create .ENV file in the root directory and update with your details where in <>
+PORT=8000
+DB_PASSWORD=<your dbpassword>
+DB_NAME=<your dbname>
+DB_USER=<your db user name>
+DB_HOST=localhost
+DB_PORT=3306
+
+npm start to run backend
+
+## front end installation and customisation
+
+cd to /IODCapstone/frontend/frontend-capstone
+npm install
+npm start to run frontend which will run on localhost:3000/ or open a browser and open localhost:3000/register
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
