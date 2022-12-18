@@ -88,8 +88,8 @@ const Armies = () => {
     navigate(`/dashboard`);
   }
 
-  const goToSelectedArmy = (armyid) => {
-    navigate(`/armies/${armyid}`, { state: {id: armyid}});
+  const goToSelectedArmy = (army) => {
+    navigate(`/armies/${army.armyid}`, { state: {id: army.armyid, name: army.armyname}});
   }
   
 
@@ -220,7 +220,7 @@ const Armies = () => {
               <TableCell align="right">{army.createdOn}</TableCell>
               <TableCell align="right">{army.updatedOn}</TableCell>
               <TableCell align="right">
-                <Button onClick={() => goToSelectedArmy(army.armyid)} variant="outlined">Details</Button>
+                <Button onClick={() => goToSelectedArmy(army)} variant="outlined">Details</Button>
                 <Button variant="outlined" onClick={() => handleUpdateOpen(army)} >Update </Button> 
                 <Button color="error" variant="outlined" onClick={() => handleDeleteOpen(army)}>Delete</Button>
               </TableCell>

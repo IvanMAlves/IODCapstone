@@ -33,7 +33,7 @@ const ArmyDetail = () => {
   const [selectedUnitID, setSelectedUnitID] = useState(""); //this is used for passing the value of the unitid to the updateunit function
   const [honors, setHonors] = useState(""); //this is used for passing from the user input into the honors for the updateunit function
   const [unitexp, setUnitExp] = useState(); //this is used for passing from the user input into the unitexp for the updateunit function
-
+  const [armyName, setArmyName] = useState("");
 
   const [open, setOpen] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
@@ -70,10 +70,11 @@ const ArmyDetail = () => {
   };
 
   useEffect(() => {
-    const { id } = state;
+    const { id,name } = state;
     if (id) {
       getUnitsByArmyId(id);
       setArmyID(id);
+      setArmyName(name);
     }
   }, []);
 
@@ -137,7 +138,7 @@ const ArmyDetail = () => {
 
   return (
     <div className="container mt-5">
-           <h1>Unit Page for Army ID: {armyId}</h1>       
+           <h1>Unit Page for Army: {armyName}</h1>       
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
