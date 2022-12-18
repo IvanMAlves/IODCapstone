@@ -32,13 +32,13 @@ DB_NAME=<your dbname>
 DB_USER=<your db user name>
 DB_HOST=localhost
 DB_PORT=3306
-
+  
 npm start to run backend
 
 ## front end installation and customisation
 
 cd to /IODCapstone/frontend/frontend-capstone
-npm install
+npm install  
 npm start to run frontend which will run on localhost:3000/ or open a browser and open localhost:3000/register
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
