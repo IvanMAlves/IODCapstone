@@ -19,27 +19,27 @@ implemented before its full live launch.
 
 ## back-end installation and customisation
 
-cd to /IODCapstone/backend.\
-npm install.\
+cd to /IODCapstone/backend\
+npm install\
 The Database can be found /IODCapstone/backend for the db_init.sql.\
 Locate /IODCapstone/backend for the config.js.\
 Change the HOST, USER, PASSWORD, DB, and PORT to match your database.\
-OR.\
-Create .ENV file in the root directory and update with your details where in <>.\
-PORT=8000.\
-DB_PASSWORD=<your dbpassword>.\
-DB_NAME=<your dbname>.\
-DB_USER=<your db user name>.\
-DB_HOST=localhost.\
-DB_PORT=3306.\
+OR\
+Create .ENV file in the root directory and update with your details where in <>\
+PORT=8000\
+DB_PASSWORD=<your dbpassword>\
+DB_NAME=<your dbname>\
+DB_USER=<your db user name>\
+DB_HOST=localhost\
+DB_PORT=3306\
   
-npm start to run backend.\
+npm start to run backend\
 
 ## front end installation and customisation
 
-cd to /IODCapstone/frontend/frontend-capstone.\
-npm install.\
-npm start to run frontend which will run on localhost:3000/ or open a browser and open localhost:3000/register.\
+cd to /IODCapstone/frontend/frontend-capstone\
+npm install\
+npm start to run frontend which will run on localhost:3000/ or open a browser and open localhost:3000/register\
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
