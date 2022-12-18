@@ -57,7 +57,8 @@ const Navbar = () => {
     <Box sx={{ flexGrow: 1 }}>
     <AppBar position="static">
       <Toolbar className="nav-bar">
-        <Typography color="whitesmoke" variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Typography color="whitesmoke" variant="h6">TABLETOP BOOKKEEPING</Typography>
+        <Typography color="whitesmoke" variant="h6" component="div" sx={{ flexGrow: 2 }}>
         <Button onClick={Dashboard} color="inherit">Dashboard</Button>
         <Button onClick={Armies} color="inherit">Armies</Button>
         <Button onClick={Matches} color="inherit">Macthes</Button>
