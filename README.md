@@ -42,6 +42,10 @@ npm install\
 npm start to run frontend which will run on localhost:3000/ or open a browser and open localhost:3000/register\
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Known Bugs and Issues
+Current Bugs/Issues as of Version 0.5:
+1. Users are able to enter in a number in Requisition and Experience
+2. Date and Time formatting from DB is 1 hour off and a different format
 
 ## Available Scripts
 
