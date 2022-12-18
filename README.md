@@ -25,11 +25,11 @@ The Database can be found /IODCapstone/backend for the db_init.sql.\
 Locate /IODCapstone/backend for the config.js.\
 Change the HOST, USER, PASSWORD, DB, and PORT to match your database.\
 OR\
-Create .ENV file in the root directory and update with your details where in <>\
+Create .ENV file in the root directory and update with your details where in ()\
 PORT=8000\
-DB_PASSWORD=<your dbpassword>\
-DB_NAME=<your dbname>\
-DB_USER=<your db user name>\
+DB_PASSWORD=(your dbpassword)\
+DB_NAME=(your dbname)\
+DB_USER=(your db user name)\
 DB_HOST=localhost\
 DB_PORT=3306\
   
