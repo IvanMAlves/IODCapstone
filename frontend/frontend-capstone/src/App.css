@@ -3,6 +3,10 @@
   font-family: 'Roboto', sans-serif;
 }
 
+.nav-bar{
+  background-color: black;
+}
+
 .list-opponent{
   width: 100%;
   align-content: center;

@@ -15,7 +15,7 @@ const Navbar = () => {
   const Logout = async () => {
     try {
       await axios.post("http://localhost:8000/users/logout");
-      navigate("/register");
+      navigate("/login");
     } catch (error) {
       console.log(error);
     }
@@ -56,8 +56,8 @@ const Navbar = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
     <AppBar position="static">
-      <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+      <Toolbar className="nav-bar">
+        <Typography color="whitesmoke" variant="h6" component="div" sx={{ flexGrow: 1 }}>
         <Button onClick={Dashboard} color="inherit">Dashboard</Button>
         <Button onClick={Armies} color="inherit">Armies</Button>
         <Button onClick={Matches} color="inherit">Macthes</Button>
