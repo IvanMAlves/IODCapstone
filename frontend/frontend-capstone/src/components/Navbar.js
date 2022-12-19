@@ -61,7 +61,7 @@ const Navbar = () => {
         <Typography color="whitesmoke" variant="h6" component="div" sx={{ flexGrow: 1 }}>
         <Button onClick={Dashboard} color="inherit">Dashboard</Button>
         <Button onClick={Armies} color="inherit">Armies</Button>
-        <Button onClick={Matches} color="inherit">Macthes</Button>
+        <Button onClick={Matches} color="inherit">Matches</Button>
         <Button onClick={About} color="inherit">About</Button>
         </Typography>
         <Button onClick={Logout} color="inherit">Logout</Button>
