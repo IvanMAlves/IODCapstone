@@ -30,7 +30,7 @@ const ArmyDetail = () => {
   const { state } = useLocation();
   const [armyId, setArmyID] = useState(0);
   const [unitName, setUnitName] = useState(""); //this is used for passing the value of the unit name to the add unit function
-  const [selectedUnitID, setSelectedUnitID] = useState(""); //this is used for passing the value of the unitid to the updateunit function
+  const [selectedUnit, setSelectedUnit] = useState(""); //this is used for passing the value of the unitid to the updateunit function
   const [honors, setHonors] = useState(""); //this is used for passing from the user input into the honors for the updateunit function
   const [unitexp, setUnitExp] = useState(); //this is used for passing from the user input into the unitexp for the updateunit function
   const [armyName, setArmyName] = useState("");
@@ -61,7 +61,7 @@ const ArmyDetail = () => {
   };
 
   const handleUpdateOpen = (unit) => {
-    setSelectedUnitID(unit.unitid);
+    setSelectedUnit(unit);
     setOpenUpdate(true);
   };
 
@@ -98,7 +98,7 @@ const ArmyDetail = () => {
   const updateSelectedUnit = async () => {
     let data = {unitexp : unitexp, honors: honors };
     const response = await axiosJWT.put(
-      `http://localhost:8000/units/updateUnitbyID/${selectedUnitID}`,
+      `http://localhost:8000/units/updateUnitbyID/${selectedUnit.unitid}`,
       data,
       {
         headers: {
@@ -191,6 +191,7 @@ const ArmyDetail = () => {
             type="text"
             fullWidth
             variant="standard"
+            defaultValue={selectedUnit.honors}
             onChange={(e) => setHonors(e.target.value)}
           />
             <TextField
@@ -202,7 +203,7 @@ const ArmyDetail = () => {
             type="number"
             fullWidth
             variant="standard"
-            defaultValue={selectedUnitID.unitexp}
+            defaultValue={selectedUnit.unitexp}
             onChange={(e) => handleNumberOnly(e)}
           />
         </DialogContent>
