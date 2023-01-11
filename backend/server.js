@@ -5,7 +5,24 @@ const cors = require('cors')
 const router = require("./router/router");
 const app = express();
 const port = process.env.PORT || 8000;
+
+const bodyParser = require('body-parser');
 const cookieParser = require("cookie-parser");
+
+
+// server.js
+const { auth } = require('express-oauth2-jwt-bearer');
+
+// Authorization middleware. When used, the Access Token must
+// exist and be verified against the Auth0 JSON Web Key Set.
+const checkJwt = auth({
+  audience: process.env.AUDIENCE,
+  issuerBaseURL: process.env.ISSUER_BASE_URL,
+});
+
+
+
+
 
 app.all('/*', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
