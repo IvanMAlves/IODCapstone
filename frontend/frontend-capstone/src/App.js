@@ -11,7 +11,7 @@ import Matches from "./components/Matches";
 function App() {
   return (
   <Routes>
-    <Route exact path='/' element={<><Navbar/><Dashboard/></>} /> 
+    <Route exact path='/' element={<><Login/></>} /> 
     <Route exact path='/login' element={<Login/>}/>
     <Route exact path='/register' element={<Register/>} />
     <Route path='/dashboard' element={<><Navbar/> <Dashboard/></>} />

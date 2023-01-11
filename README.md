@@ -32,7 +32,9 @@ DB_NAME=(your dbname)\
 DB_USER=(your db user name)\
 DB_HOST=localhost\
 DB_PORT=3306\
-  
+ACCESS_TOKEN_SECRET=yourtoken\
+REFRESH_TOKEN_SECRET=yourrefreshtoken\
+
 npm start to run backend\
 
 ## front end installation and customisation
