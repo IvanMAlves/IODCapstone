@@ -14,6 +14,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 
 const Register = () => {
@@ -24,21 +26,30 @@ const Register = () => {
   const [confPassword, setConfPassword] = useState("");
   const [msg, setMsg] = useState("");
   const navigate = useNavigate();
+  
 
 
   const Register = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8000/users/registerUser", {
+       await axios.post("http://localhost:8000/users/checkUniqueEmail", { 
         useremail: email,
-        password: password,
-        username: name,
-        confPassword: confPassword,
-      });
-      navigate("/login");
+      }).then(() =>  {
+         axios.post("http://localhost:8000/users/registerUser", {
+          useremail: email,
+          password: password,
+          username: name,
+          confPassword: confPassword,
+        });
+        navigate("/login");
+      }).catch((error) => {
+        console.log(error.response.data.msg);
+        setMsg(error.response.data.msg); //sets the message from the backend
+    })
     } catch (error) {
+      console.log(error);
       if (error.response) {
-        setMsg(error.response.data.msg);
+        setMsg(error.response.data.msg); //sets the message from the backend
       }
     }
   };
@@ -59,8 +70,15 @@ const Register = () => {
   const theme = createTheme();
 
   return (
-
+    
     <ThemeProvider theme={theme}>
+ 
+      {msg !== "" &&
+     <Stack sx={{ width: '100%' }} spacing={2}>
+     <Alert severity="error">
+       {msg}</Alert>
+     </Stack>
+      }
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Box
@@ -71,6 +89,7 @@ const Register = () => {
           alignItems: 'center',
         }}
       >
+        
 
         <Typography component="h1" variant="h5">
           Sign up

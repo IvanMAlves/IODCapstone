@@ -40,6 +40,33 @@ exports.registerUser = async (req, res) => {
   }
 };
 
+//new method to check unique email
+exports.checkUniqueEmail = async (req, res) => {
+  try {
+    const { useremail } = req.body
+    const connection = mysql.createConnection(config);
+    let sql = `SELECT * FROM users WHERE useremail = "${useremail}";`;
+
+    connection.query(sql, (error, results, fields) => {
+      //error here
+      if (error) {
+        throw Error(error.message);
+      }
+      if (results.length > 0) {
+        res.status(400);
+        res.json({ success: false, msg: "Email already exists" });
+      } else {
+        res.status(200);
+        res.json({ success: true, msg: "Email is unique" });
+      }
+    }); //error here
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ msg: "Email is already in use" });
+  }
+};
+
+
 exports.login = async (req, res) => {
   try {
     const { useremail, password } = req.body;
@@ -181,7 +208,7 @@ exports.selectAllOtherUsers = async (req, res) => {
   try {
     const connection = mysql.createConnection(config);
     let sql = `SELECT idusers, username FROM users WHERE idusers != ${idusers};`;
-    
+
     connection.query(sql, (error, results, fields) => {
       if (error) {
         throw Error(error.message);

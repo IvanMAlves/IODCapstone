@@ -23,6 +23,8 @@ router.post('/users/registerUser',userController.registerUser);
 router.post('/users/logout',userController.logout);
 //this is the route will run to refresh the token
 router.get('/token', refreshToken.refreshToken);
+//this is the route that will check the unique email
+router.post('/users/checkUniqueEmail', userController.checkUniqueEmail);
 
 //this is to create an army
 router.post('/army/create', middleWare.verifyTokens,ArmyController.createArmy);
