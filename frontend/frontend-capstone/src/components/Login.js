@@ -24,8 +24,16 @@ const Login = () => {
   const navigate = useNavigate();
 
 
+
   const Auth = async (e) => {
     e.preventDefault();
+    //make the validation here for email and password
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!re.test(String(email).toLowerCase())) {
+      setMsg("Please enter a valid email");
+      return;
+    }
+    
     try {
       await axios.post("http://localhost:8000/users/login", {
         useremail: email,
